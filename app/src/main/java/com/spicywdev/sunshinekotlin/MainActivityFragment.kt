@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.ListView
+import kotlinx.android.synthetic.main.fragment_main.view.*
 
 
 class MainActivityFragment : Fragment() {
@@ -27,11 +27,8 @@ class MainActivityFragment : Fragment() {
 
         val forecastAdapter = ArrayAdapter<String>(activity, R.layout.list_item_forecast, R.id.list_item_forecast_textview, weekForecast)
 
-        val rootView = inflater!!.inflate(R.layout.fragment_main, container, false)
-
-        val forecastListView = rootView.findViewById(R.id.listview_forecast) as ListView
-        forecastListView.adapter = forecastAdapter
-
-        return rootView
+        return  inflater!!.inflate(R.layout.fragment_main, container, false).apply {
+            listview_forecast.adapter = forecastAdapter
+        }
     }
 }
