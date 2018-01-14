@@ -1,4 +1,4 @@
-package com.spicywdev.sunshinekotlin.util
+package com.niicz.sunshinekotlin.util
 
 import android.support.annotation.IdRes
 import android.support.v4.app.Fragment

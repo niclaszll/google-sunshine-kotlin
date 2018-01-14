@@ -1,11 +1,11 @@
-package com.spicywdev.sunshinekotlin.forecast
+package com.niicz.sunshinekotlin.forecast
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.spicywdev.sunshinekotlin.R
-import com.spicywdev.sunshinekotlin.util.replaceFragmentInActivity
+import com.niicz.sunshinekotlin.R
+import com.niicz.sunshinekotlin.util.replaceFragmentInActivity
 
 
 class ForecastActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.spicywdev.sunshinekotlin;
+package com.niicz.sunshinekotlin;
 
 import org.junit.Test;
 

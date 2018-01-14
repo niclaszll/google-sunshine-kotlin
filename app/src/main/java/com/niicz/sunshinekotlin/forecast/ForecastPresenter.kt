@@ -1,8 +1,8 @@
-package com.spicywdev.sunshinekotlin.forecast
+package com.niicz.sunshinekotlin.forecast
 
 import android.os.AsyncTask
 import android.util.Log
-import com.spicywdev.sunshinekotlin.BuildConfig
+import com.niicz.sunshinekotlin.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException

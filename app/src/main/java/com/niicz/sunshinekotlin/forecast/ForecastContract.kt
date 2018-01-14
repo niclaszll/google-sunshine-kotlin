@@ -1,7 +1,7 @@
-package com.spicywdev.sunshinekotlin.forecast
+package com.niicz.sunshinekotlin.forecast
 
-import com.spicywdev.sunshinekotlin.BasePresenter
-import com.spicywdev.sunshinekotlin.BaseView
+import com.niicz.sunshinekotlin.BasePresenter
+import com.niicz.sunshinekotlin.BaseView
 
 
 interface ForecastContract {

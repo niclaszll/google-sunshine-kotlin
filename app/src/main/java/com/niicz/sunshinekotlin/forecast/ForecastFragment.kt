@@ -1,10 +1,10 @@
-package com.spicywdev.sunshinekotlin.forecast
+package com.niicz.sunshinekotlin.forecast
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
 import android.widget.ArrayAdapter
-import com.spicywdev.sunshinekotlin.R
+import com.niicz.sunshinekotlin.R
 import kotlinx.android.synthetic.main.fragment_forecast.view.*
 
 
