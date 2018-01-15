@@ -3,14 +3,16 @@ package com.niicz.sunshinekotlin.forecast
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
+import android.widget.Adapter
 import android.widget.ArrayAdapter
+import android.widget.ListView
 import com.niicz.sunshinekotlin.R
-import kotlinx.android.synthetic.main.fragment_forecast.view.*
 
 
 class ForecastFragment : Fragment(), ForecastContract.View {
 
     override lateinit var presenter: ForecastContract.Presenter
+    private var forecastAdapter: ArrayAdapter<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,15 +36,24 @@ class ForecastFragment : Fragment(), ForecastContract.View {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        val forecastAdapter = ArrayAdapter<String>(activity, R.layout.list_item_forecast, R.id.list_item_forecast_textview, presenter.getSampleData())
+        val rootView = inflater!!.inflate(R.layout.fragment_forecast, container, false)
+        forecastAdapter = ArrayAdapter(activity, R.layout.list_item_forecast, R.id.list_item_forecast_textview, presenter.getSampleData())
+        val listView = rootView.findViewById(R.id.listview_forecast) as ListView
+        listView.adapter = forecastAdapter
 
-        return inflater!!.inflate(R.layout.fragment_forecast, container, false).apply {
-            listview_forecast.adapter = forecastAdapter
-        }
+        return rootView
     }
 
     override fun refreshWeather() {
         presenter.fetchWeather()
+    }
+
+    override fun clearAdapter() {
+        forecastAdapter!!.clear()
+    }
+
+    override fun addToAdapter(dayForecastStr: String) {
+        forecastAdapter!!.add(dayForecastStr)
     }
 
     companion object {

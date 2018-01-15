@@ -9,6 +9,8 @@ interface ForecastContract {
     interface View : BaseView<Presenter> {
 
         fun refreshWeather()
+        fun clearAdapter()
+        fun addToAdapter(dayForecastStr: String)
     }
 
     interface Presenter : BasePresenter {
