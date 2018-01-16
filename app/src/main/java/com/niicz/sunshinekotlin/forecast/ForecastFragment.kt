@@ -35,7 +35,7 @@ class ForecastFragment : Fragment(), ForecastContract.View {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
+        //sometimes errors, they go away no worries
         val rootView = inflater!!.inflate(R.layout.fragment_forecast, container, false)
         forecastAdapter = ArrayAdapter(activity, R.layout.list_item_forecast, R.id.list_item_forecast_textview, presenter.getSampleData())
         val listView = rootView.findViewById(R.id.listview_forecast) as ListView
@@ -48,6 +48,7 @@ class ForecastFragment : Fragment(), ForecastContract.View {
         presenter.fetchWeather()
     }
 
+    //clear&add in on fun?
     override fun clearAdapter() {
         forecastAdapter!!.clear()
     }
