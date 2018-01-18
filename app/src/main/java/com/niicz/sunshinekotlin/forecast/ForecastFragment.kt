@@ -3,7 +3,6 @@ package com.niicz.sunshinekotlin.forecast
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
-import android.widget.Adapter
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import com.niicz.sunshinekotlin.R
@@ -48,13 +47,9 @@ class ForecastFragment : Fragment(), ForecastContract.View {
         presenter.fetchWeather()
     }
 
-    //clear&add in on fun?
-    override fun clearAdapter() {
+    override fun addToAdapter(dayForecastStrs: MutableList<String>) {
         forecastAdapter!!.clear()
-    }
-
-    override fun addToAdapter(dayForecastStr: String) {
-        forecastAdapter!!.add(dayForecastStr)
+        forecastAdapter!!.addAll(dayForecastStrs)
     }
 
     companion object {

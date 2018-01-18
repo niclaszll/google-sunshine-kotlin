@@ -16,7 +16,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ForecastPresenter(private val forecastView: ForecastContract.View) : ForecastContract.Presenter {
+class ForecastPresenter(private val forecastView: ForecastContract.View) :
+    ForecastContract.Presenter {
 
     init {
         forecastView.presenter = this
@@ -30,13 +31,13 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) : Forec
     //sample data - will be removed later
     override fun getSampleData(): MutableList<String> {
         return mutableListOf(
-                "Today - Sunny - 30",
-                "Tomorrow - Sunny - 28",
-                "Weds - Cloudy - 20",
-                "Thurs - Sunny - 25",
-                "Fri - Sunny - 26",
-                "Sat - Rainy - 20",
-                "Sun - Rainy - 21"
+            "Today - Sunny - 30",
+            "Tomorrow - Sunny - 28",
+            "Weds - Cloudy - 20",
+            "Thurs - Sunny - 25",
+            "Fri - Sunny - 26",
+            "Sat - Rainy - 20",
+            "Sun - Rainy - 21"
         )
     }
 
@@ -58,7 +59,10 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) : Forec
         }
 
         @Throws(JSONException::class)
-        private fun getWeatherDataFromJson(forecastJsonStr: String?, numDays: Int): MutableList<String> {
+        private fun getWeatherDataFromJson(
+            forecastJsonStr: String?,
+            numDays: Int
+        ): MutableList<String> {
 
             //JSON object names
             val owmList = "list"
@@ -81,6 +85,7 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) : Forec
 
             //TODO change Time to GregorianCal!
             var dayTime = Time()
+
             dayTime.setToNow()
 
             // we start at the day returned by local time. Otherwise this is a mess.
@@ -127,12 +132,12 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) : Forec
             val numDays = 7
 
             val builtUri = Uri.parse("http://api.openweathermap.org/data/2.5/forecast?").buildUpon()
-                    .appendQueryParameter("q", p0[0])
-                    .appendQueryParameter("mode", format)
-                    .appendQueryParameter("units", units)
-                    .appendQueryParameter("cnt", Integer.toString(numDays))
-                    .appendQueryParameter("appid", BuildConfig.OPEN_WEATHER_MAP_API_KEY)
-                    .build()
+                .appendQueryParameter("q", p0[0])
+                .appendQueryParameter("mode", format)
+                .appendQueryParameter("units", units)
+                .appendQueryParameter("cnt", Integer.toString(numDays))
+                .appendQueryParameter("appid", BuildConfig.OPEN_WEATHER_MAP_API_KEY)
+                .build()
 
             val url = URL(builtUri.toString())
 
@@ -161,13 +166,10 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) : Forec
 
         override fun onPostExecute(result: MutableList<String>) {
             if (result.isNotEmpty()) {
-                forecastView.clearAdapter()
-                for (dayForecastStr in result) {
-                    forecastView.addToAdapter(dayForecastStr)
-                }
+                forecastView.addToAdapter(result)
             }
-
         }
-    }
 
+    }
 }
+
