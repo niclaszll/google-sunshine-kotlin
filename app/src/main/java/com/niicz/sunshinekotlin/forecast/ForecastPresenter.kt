@@ -24,9 +24,9 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) :
         forecastView.presenter = this
     }
 
-    override fun fetchWeather() {
+    override fun fetchWeather(location:String) {
         val weatherTask = FetchWeatherTask()
-        weatherTask.execute("Dresden,de")
+        weatherTask.execute(location)
     }
 
     //sample data - will be removed later

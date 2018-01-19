@@ -10,6 +10,8 @@ import com.niicz.sunshinekotlin.R
 import android.widget.Toast
 import android.content.Intent
 import com.niicz.sunshinekotlin.detail.DetailActivity
+import android.content.SharedPreferences
+import android.support.v7.preference.PreferenceManager
 
 
 class ForecastFragment : Fragment(), ForecastContract.View {
@@ -58,7 +60,12 @@ class ForecastFragment : Fragment(), ForecastContract.View {
     }
 
     override fun refreshWeather() {
-        presenter.fetchWeather()
+        val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
+        val location = prefs.getString(
+            getString(R.string.pref_location_key),
+            getString(R.string.pref_location_default)
+        )
+        presenter.fetchWeather(location)
     }
 
     override fun addToAdapter(dayForecastStrs: MutableList<String>) {

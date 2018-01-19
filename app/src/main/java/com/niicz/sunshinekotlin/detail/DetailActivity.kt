@@ -6,6 +6,10 @@ import android.view.Menu
 import android.view.MenuItem
 import com.niicz.sunshinekotlin.R
 import com.niicz.sunshinekotlin.util.replaceFragmentInActivity
+import com.niicz.sunshinekotlin.settings.SettingsActivity
+import android.content.Intent
+
+
 
 
 class DetailActivity : AppCompatActivity() {
@@ -22,7 +26,7 @@ class DetailActivity : AppCompatActivity() {
                 }
 
         //set presenter
-        ForecastPresenter(detailFragment)
+        DetailPresenter(detailFragment)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -36,6 +40,7 @@ class DetailActivity : AppCompatActivity() {
         val id = item.itemId
 
         return if (id == R.id.action_settings) {
+            startActivity(Intent(this, SettingsActivity::class.java))
             true
         } else super.onOptionsItemSelected(item)
 

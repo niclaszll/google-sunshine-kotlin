@@ -6,6 +6,8 @@ import android.view.Menu
 import android.view.MenuItem
 import com.niicz.sunshinekotlin.R
 import com.niicz.sunshinekotlin.util.replaceFragmentInActivity
+import com.niicz.sunshinekotlin.settings.SettingsActivity
+import android.content.Intent
 
 
 class ForecastActivity : AppCompatActivity() {
@@ -36,6 +38,7 @@ class ForecastActivity : AppCompatActivity() {
         val id = item.itemId
 
         return if (id == R.id.action_settings) {
+            startActivity(Intent(this, SettingsActivity::class.java))
             true
         } else super.onOptionsItemSelected(item)
 
