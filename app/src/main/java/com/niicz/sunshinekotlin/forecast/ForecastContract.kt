@@ -15,7 +15,5 @@ interface ForecastContract {
     interface Presenter : BasePresenter {
 
         fun fetchWeather(location:String)
-
-        fun getSampleData(): List<String>
     }
 }

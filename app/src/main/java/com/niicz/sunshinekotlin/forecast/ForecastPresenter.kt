@@ -7,14 +7,13 @@ import android.util.Log
 import com.niicz.sunshinekotlin.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
-import org.json.JSONObject
-import org.json.JSONException
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import android.R.attr.timeZone
 
 
 class ForecastPresenter(private val forecastView: ForecastContract.View) :
@@ -27,19 +26,6 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) :
     override fun fetchWeather(location:String) {
         val weatherTask = FetchWeatherTask()
         weatherTask.execute(location)
-    }
-
-    //sample data - will be removed later
-    override fun getSampleData(): MutableList<String> {
-        return mutableListOf(
-            "Today - Sunny - 30",
-            "Tomorrow - Sunny - 28",
-            "Weds - Cloudy - 20",
-            "Thurs - Sunny - 25",
-            "Fri - Sunny - 26",
-            "Sat - Rainy - 20",
-            "Sun - Rainy - 21"
-        )
     }
 
     inner class FetchWeatherTask : AsyncTask<String, Void, MutableList<String>>() {
