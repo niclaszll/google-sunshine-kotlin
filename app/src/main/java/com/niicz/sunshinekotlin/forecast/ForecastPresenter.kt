@@ -14,6 +14,7 @@ import org.json.JSONException
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import android.R.attr.timeZone
 
 
 class ForecastPresenter(private val forecastView: ForecastContract.View) :
@@ -59,10 +60,7 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) :
         }
 
         @Throws(JSONException::class)
-        private fun getWeatherDataFromJson(
-            forecastJsonStr: String?,
-            numDays: Int
-        ): MutableList<String> {
+        private fun getWeatherDataFromJson(forecastJsonStr: String?, numDays: Int): MutableList<String> {
 
             //JSON object names
             val owmList = "list"
@@ -75,23 +73,10 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) :
             val forecastJson = JSONObject(forecastJsonStr)
             val weatherArray = forecastJson.getJSONArray(owmList)
 
-            // OWM returns daily forecasts based upon the local time of the city that is being
-            // asked for, which means that we need to know the GMT offset to translate this data
-            // properly.
-
-            // Since this data is also sent in-order and the first day is always the
-            // current day, we're going to take advantage of that to get a nice
-            // normalized UTC date for all of our weather.
-
-            //TODO change Time to GregorianCal!
+            //TODO change Time(deprecated)!
             var dayTime = Time()
-
             dayTime.setToNow()
-
-            // we start at the day returned by local time. Otherwise this is a mess.
             val julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff)
-
-            // now we work exclusively in UTC
             dayTime = Time()
 
             val resultStrs: MutableList<String> = LinkedList()

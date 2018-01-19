@@ -1,4 +1,4 @@
-package com.niicz.sunshinekotlin.forecast
+package com.niicz.sunshinekotlin.detail
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -8,26 +8,26 @@ import com.niicz.sunshinekotlin.R
 import com.niicz.sunshinekotlin.util.replaceFragmentInActivity
 
 
-class ForecastActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_forecast)
+        setContentView(R.layout.activity_detail)
 
         //set fragment
-        val forecastFragment = supportFragmentManager
-            .findFragmentById(R.id.fragment_forecast) as ForecastFragment?
-                ?: ForecastFragment.newInstance().also {
-                    replaceFragmentInActivity(it, R.id.activity_forecast)
+        val detailFragment = supportFragmentManager
+            .findFragmentById(R.id.fragment_detail) as DetailFragment?
+                ?: DetailFragment.newInstance().also {
+                    replaceFragmentInActivity(it, R.id.activity_detail)
                 }
 
         //set presenter
-        ForecastPresenter(forecastFragment)
+        ForecastPresenter(detailFragment)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
-        menuInflater.inflate(R.menu.main, menu)
+        menuInflater.inflate(R.menu.detail, menu)
         return true
     }
 
