@@ -14,6 +14,6 @@ interface ForecastContract {
 
     interface Presenter : BasePresenter {
 
-        fun fetchWeather(location:String)
+        fun fetchWeather(location: String, unitType: String)
     }
 }

@@ -67,7 +67,11 @@ class ForecastFragment : Fragment(), ForecastContract.View {
             getString(R.string.pref_location_key),
             getString(R.string.pref_location_default)
         )
-        presenter.fetchWeather(location)
+        val unitType = prefs.getString(
+            getString(R.string.pref_units_key),
+            getString(R.string.pref_units_metric)
+        )
+        presenter.fetchWeather(location, unitType)
     }
 
     override fun addToAdapter(dayForecastStrs: MutableList<String>) {
