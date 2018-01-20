@@ -4,6 +4,8 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.text.format.Time
 import android.util.Log
+
+
 import com.niicz.sunshinekotlin.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -23,9 +25,9 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) :
         forecastView.presenter = this
     }
 
-    override fun fetchWeather(location:String) {
+    override fun fetchWeather(location:String, unitType: String) {
         val weatherTask = FetchWeatherTask()
-        weatherTask.execute(location)
+        weatherTask.execute(location,unitType)
     }
 
     inner class FetchWeatherTask : AsyncTask<String, Void, MutableList<String>>() {
@@ -38,15 +40,26 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) :
             return shortenedDateFormat.format(time)
         }
 
-        private fun formatHighLows(high: Double, low: Double): String {
-            val roundedHigh = Math.round(high)
-            val roundedLow = Math.round(low)
+        private fun formatHighLows(high: Double, low: Double, unitType: String): String {
+
+            var newHigh: Double = high
+            var newLow: Double = low
+
+            if (unitType == "imperial") {
+                newHigh = (high * 1.8) + 32
+                newLow = (low * 1.8) + 32
+            } else if (unitType != "metric") {
+                Log.d(logTag, "Unit type not found: " + unitType)
+            }
+
+            val roundedHigh = Math.round(newHigh)
+            val roundedLow = Math.round(newLow)
 
             return roundedHigh.toString() + "/" + roundedLow
         }
 
         @Throws(JSONException::class)
-        private fun getWeatherDataFromJson(forecastJsonStr: String?, numDays: Int): MutableList<String> {
+        private fun getWeatherDataFromJson(forecastJsonStr: String?, numDays: Int, unitType: String): MutableList<String> {
 
             //JSON object names
             val owmList = "list"
@@ -87,7 +100,7 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) :
                 val high = temperatureObject.getDouble(owmMax)
                 val low = temperatureObject.getDouble(owmMin)
 
-                highAndLow = formatHighLows(high, low)
+                highAndLow = formatHighLows(high, low, unitType)
                 resultStrs.add("$day - $description - $highAndLow")
             }
 
@@ -124,7 +137,7 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) :
             }
 
             try {
-                return getWeatherDataFromJson(forecastJsonStr, numDays)
+                return getWeatherDataFromJson(forecastJsonStr, numDays, p0[1])
 
             } catch (e: JSONException) {
                 Log.e(logTag, e.message, e)

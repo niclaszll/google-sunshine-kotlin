@@ -13,11 +13,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        //what is rootKey? why null?
         addPreferencesFromResource(R.xml.preferences)
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
 
-        onSharedPreferenceChanged(sharedPreferences, getString(R.string.pref_location_key));
+        onSharedPreferenceChanged(sharedPreferences, getString(R.string.pref_location_key))
+        onSharedPreferenceChanged(sharedPreferences, getString(R.string.pref_units_key))
 
     }
 
