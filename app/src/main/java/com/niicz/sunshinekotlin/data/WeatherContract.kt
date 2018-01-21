@@ -1,6 +1,5 @@
 package com.niicz.sunshinekotlin.data
 
-import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.PrimaryKey
@@ -20,11 +19,12 @@ class WeatherContract {
 
     @Entity(tableName = "location")
     data class LocationEntry constructor(
-        @PrimaryKey(autoGenerate = true) val locationID: String,
-        @ColumnInfo(name = "location_setting") val locationSetting: String,
-        @ColumnInfo(name = "city_name") val city: String,
-        @ColumnInfo(name = "coord_lat") val coordLat: String,
-        @ColumnInfo(name = "coord_long") val coordLong: String
+        @PrimaryKey(autoGenerate = true)
+        val locationID: String,
+        val locationSetting: String,
+        val city: String,
+        val coordLat: String,
+        val coordLong: String
     )
 
     @Entity(
@@ -38,16 +38,16 @@ class WeatherContract {
     )
     data class WeatherEntry constructor(
         @PrimaryKey(autoGenerate = true)
-        @ColumnInfo(name = "location_key") val locationKey: String,
-        @ColumnInfo(name = "date") val date: String,
-        @ColumnInfo(name = "description") val description: String,
-        @ColumnInfo(name = "min_temp") val min: Float,
-        @ColumnInfo(name = "max_temp") val max: Float,
-        @ColumnInfo(name = "humidity") val humidity: Float,
-        @ColumnInfo(name = "pressure") val pressure: Float,
-        @ColumnInfo(name = "wind") val wind: Float,
-        @ColumnInfo(name = "degrees") val degrees: String
+        val weatherID: String,
+        val locationKey: String,
+        val date: String,
+        val description: String,
+        val min: Float,
+        val max: Float,
+        val humidity: Float,
+        val pressure: Float,
+        val wind: Float,
+        val degrees: String
     )
-
 
 }
