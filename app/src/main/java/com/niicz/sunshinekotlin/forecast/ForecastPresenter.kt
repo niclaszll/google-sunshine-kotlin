@@ -36,6 +36,7 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) :
 
 
         private fun getReadableDateString(time: Long): String {
+            //TODO change to other dateformat, time gets displayed every 3h
             val shortenedDateFormat = SimpleDateFormat.getDateInstance(DateFormat.LONG, Locale.US)
             return shortenedDateFormat.format(time)
         }
@@ -87,7 +88,7 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) :
                 val highAndLow: String
 
                 val dayForecast = weatherArray.getJSONObject(i)
-                val dateTime: Long = dayTime.setJulianDay(julianStartDay + i)
+                val dateTime: Long = dayTime.setJulianDay(julianStartDay + i/8)
 
                 day = getReadableDateString(dateTime)
 
@@ -119,11 +120,12 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) :
                 .appendQueryParameter("q", p0[0])
                 .appendQueryParameter("mode", format)
                 .appendQueryParameter("units", units)
-                .appendQueryParameter("cnt", Integer.toString(numDays))
+                //.appendQueryParameter("cnt", Integer.toString(numDays))
                 .appendQueryParameter("appid", BuildConfig.OPEN_WEATHER_MAP_API_KEY)
                 .build()
 
             val url = URL(builtUri.toString())
+            Log.v("test", url.toString())
 
             try {
                 val client = OkHttpClient()

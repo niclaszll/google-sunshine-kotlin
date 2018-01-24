@@ -4,18 +4,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.preference.PreferenceManager
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.*
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ListView
 import com.niicz.sunshinekotlin.R
 import com.niicz.sunshinekotlin.detail.DetailActivity
+import com.niicz.sunshinekotlin.util.ItemClickSupport
+import kotlinx.android.synthetic.main.list_item_forecast.view.*
 
 
 class ForecastFragment : Fragment(), ForecastContract.View {
 
     override lateinit var presenter: ForecastContract.Presenter
-    private var forecastAdapter: ArrayAdapter<String>? = null
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    private var forecastAdapter: ForecastAdapter? = null
+    private lateinit var forecastData: MutableList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,24 +43,25 @@ class ForecastFragment : Fragment(), ForecastContract.View {
 
         val rootView = inflater!!.inflate(R.layout.fragment_forecast, container, false)
 
-        forecastAdapter = ArrayAdapter(
-            activity,
-            R.layout.list_item_forecast,
-            R.id.list_item_forecast_textview,
-            mutableListOf()
-        )
+        val forecastRecyclerView = rootView.findViewById(R.id.recyclerViewForecast) as RecyclerView
 
-        val listView = rootView.findViewById(R.id.listview_forecast) as ListView
-        listView.adapter = forecastAdapter
+        linearLayoutManager = LinearLayoutManager(activity)
+        forecastRecyclerView.layoutManager = linearLayoutManager
 
-        listView.onItemClickListener =
-                AdapterView.OnItemClickListener { adapterView, view, position, l ->
-                    val forecast = forecastAdapter!!.getItem(position)
+        forecastData = mutableListOf()
+        forecastAdapter = ForecastAdapter(forecastData)
+        forecastRecyclerView.adapter = forecastAdapter
+
+        ItemClickSupport.addTo(forecastRecyclerView).setOnItemClickListener(
+            object : ItemClickSupport.OnItemClickListener {
+                override fun onItemClicked(recyclerView: RecyclerView, position: Int, v: View) {
+                    val forecast = linearLayoutManager.findViewByPosition(position).list_item_forecast_textview.text
                     val intent = Intent(activity, DetailActivity::class.java)
                         .putExtra(Intent.EXTRA_TEXT, forecast)
                     startActivity(intent)
                 }
-
+            }
+        )
         return rootView
     }
 
@@ -75,8 +79,9 @@ class ForecastFragment : Fragment(), ForecastContract.View {
     }
 
     override fun addToAdapter(dayForecastStrs: MutableList<String>) {
-        forecastAdapter!!.clear()
-        forecastAdapter!!.addAll(dayForecastStrs)
+        forecastData.clear()
+        forecastData.addAll(dayForecastStrs)
+        forecastAdapter!!.notifyDataSetChanged()
     }
 
     override fun onStart() {

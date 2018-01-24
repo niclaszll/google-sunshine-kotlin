@@ -9,9 +9,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".forecast.ForecastFragment">
 
-    <ListView
-        android:id="@+id/listview_forecast"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewForecast"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"/>
 
 </FrameLayout>
