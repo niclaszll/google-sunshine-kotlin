@@ -20,7 +20,7 @@ class WeatherContract {
     @Entity(tableName = "location")
     data class LocationEntry constructor(
         @PrimaryKey(autoGenerate = true)
-        val locationID: String,
+        val locationID: Long,
         val locationSetting: String,
         val city: String,
         val coordLat: String,
@@ -36,17 +36,17 @@ class WeatherContract {
             onDelete = ForeignKey.CASCADE
         ))]
     )
-    data class WeatherEntry constructor(
+    data class WeatherEntry (
         @PrimaryKey(autoGenerate = true)
-        val weatherID: String,
-        val locationKey: String,
+        val weatherID: Long,
+        val locationKey: Long,
         val date: String,
         val description: String,
-        val min: Float,
-        val max: Float,
-        val humidity: Float,
-        val pressure: Float,
-        val wind: Float,
+        val min: Double,
+        val max: Double,
+        val humidity: Double,
+        val pressure: Double,
+        val wind: Double,
         val degrees: String
     )
 
