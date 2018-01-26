@@ -36,7 +36,7 @@ class WeatherContract {
             onDelete = ForeignKey.CASCADE
         ))]
     )
-    data class WeatherEntry (
+    data class WeatherEntry(
         @PrimaryKey(autoGenerate = true)
         val weatherID: Long,
         val locationKey: Long,

@@ -1,18 +1,16 @@
 package com.niicz.sunshinekotlin.forecast
 
-import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.preference.PreferenceManager
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.niicz.sunshinekotlin.R
-import com.niicz.sunshinekotlin.util.replaceFragmentInActivity
 import com.niicz.sunshinekotlin.settings.SettingsActivity
-import android.content.Intent
-import android.content.SharedPreferences
-import android.net.Uri
-import android.support.v7.preference.PreferenceManager
-import android.util.Log
+import com.niicz.sunshinekotlin.util.replaceFragmentInActivity
 
 
 class ForecastActivity : AppCompatActivity() {

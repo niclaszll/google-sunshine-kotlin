@@ -55,7 +55,8 @@ class ForecastFragment : Fragment(), ForecastContract.View {
         ItemClickSupport.addTo(forecastRecyclerView).setOnItemClickListener(
             object : ItemClickSupport.OnItemClickListener {
                 override fun onItemClicked(recyclerView: RecyclerView, position: Int, v: View) {
-                    val forecast = linearLayoutManager.findViewByPosition(position).list_item_forecast_textview.text
+                    val forecast = linearLayoutManager.findViewByPosition(position)
+                        .list_item_forecast_textview.text
                     val intent = Intent(activity, DetailActivity::class.java)
                         .putExtra(Intent.EXTRA_TEXT, forecast)
                     startActivity(intent)

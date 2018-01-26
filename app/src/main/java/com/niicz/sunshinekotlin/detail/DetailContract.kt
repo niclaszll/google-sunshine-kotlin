@@ -5,7 +5,7 @@ import com.niicz.sunshinekotlin.BaseView
 
 interface DetailContract {
 
-    interface View : BaseView<Presenter>{}
+    interface View : BaseView<Presenter> {}
 
-    interface Presenter : BasePresenter{}
+    interface Presenter : BasePresenter {}
 }

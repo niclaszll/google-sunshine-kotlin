@@ -25,9 +25,9 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) :
         forecastView.presenter = this
     }
 
-    override fun fetchWeather(location:String, unitType: String) {
+    override fun fetchWeather(location: String, unitType: String) {
         val weatherTask = FetchWeatherTask()
-        weatherTask.execute(location,unitType)
+        weatherTask.execute(location, unitType)
     }
 
     inner class FetchWeatherTask : AsyncTask<String, Void, MutableList<String>>() {
@@ -88,7 +88,7 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) :
                 val highAndLow: String
 
                 val dayForecast = weatherArray.getJSONObject(i)
-                val dateTime: Long = dayTime.setJulianDay(julianStartDay + i/8)
+                val dateTime: Long = dayTime.setJulianDay(julianStartDay + i / 8)
 
                 day = getReadableDateString(dateTime)
 
@@ -131,7 +131,7 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) :
                 val client = OkHttpClient()
                 val request: Request = Request.Builder().url(url).build()
                 val response = client.newCall(request).execute()
-                forecastJsonStr = response.body().string()
+                forecastJsonStr = response?.body()?.string()
 
             } catch (e: IOException) {
                 Log.e(logTag, e.message, e)

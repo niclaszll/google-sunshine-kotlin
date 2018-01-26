@@ -7,7 +7,7 @@ import android.arch.persistence.room.*
 interface WeatherDao {
 
     @Query("SELECT * FROM weather")
-    fun getAll():List<WeatherContract.WeatherEntry>
+    fun getAll(): List<WeatherContract.WeatherEntry>
 
     @Insert
     fun insertAll(weatherEntries: List<WeatherContract.WeatherEntry>)

@@ -8,10 +8,12 @@ import android.widget.TextView
 import com.niicz.sunshinekotlin.R
 
 
-class ForecastAdapter(private val forecastList : MutableList<String>) : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
+class ForecastAdapter(private val forecastList: MutableList<String>) :
+    RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent?.context).inflate(R.layout.list_item_forecast, parent, false)
+        val v =
+            LayoutInflater.from(parent?.context).inflate(R.layout.list_item_forecast, parent, false)
 
 
         return ViewHolder(v)

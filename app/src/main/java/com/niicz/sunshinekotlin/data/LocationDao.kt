@@ -6,7 +6,7 @@ import android.arch.persistence.room.*
 interface LocationDao {
 
     @Query("SELECT * FROM location")
-    fun getAll():List<WeatherContract.LocationEntry>
+    fun getAll(): List<WeatherContract.LocationEntry>
 
     @Insert
     fun insertAll(locationEntries: List<WeatherContract.LocationEntry>)

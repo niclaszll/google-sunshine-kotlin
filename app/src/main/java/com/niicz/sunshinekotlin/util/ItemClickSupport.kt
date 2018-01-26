@@ -21,10 +21,10 @@ class ItemClickSupport private constructor(private val mRecyclerView: RecyclerVi
         if (mOnItemLongClickListener != null) {
             val holder = mRecyclerView.getChildViewHolder(v)
             return@OnLongClickListener mOnItemLongClickListener!!.onItemLongClicked(
-        mRecyclerView,
-        holder.adapterPosition,
-        v
-    )
+                mRecyclerView,
+                holder.adapterPosition,
+                v
+            )
         }
         false
     }

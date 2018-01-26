@@ -1,15 +1,13 @@
 package com.niicz.sunshinekotlin.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.niicz.sunshinekotlin.R
-import com.niicz.sunshinekotlin.util.replaceFragmentInActivity
 import com.niicz.sunshinekotlin.settings.SettingsActivity
-import android.content.Intent
-
-
+import com.niicz.sunshinekotlin.util.replaceFragmentInActivity
 
 
 class DetailActivity : AppCompatActivity() {
