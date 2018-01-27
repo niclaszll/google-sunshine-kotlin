@@ -15,5 +15,6 @@ interface ForecastContract {
     interface Presenter : BasePresenter {
 
         fun fetchWeather(location: String, unitType: String)
+        fun addToAdapter(result: MutableList<String>)
     }
 }
