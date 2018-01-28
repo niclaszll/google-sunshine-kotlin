@@ -12,9 +12,11 @@ interface ForecastContract {
         fun addToAdapter(dayForecastStrs: MutableList<String>)
     }
 
-    interface Presenter : BasePresenter {
+    interface Presenter : BasePresenter<View> {
 
         fun fetchWeather(location: String, unitType: String)
         fun addToAdapter(result: MutableList<String>)
+        override fun takeView(view: ForecastContract.View)
+        override fun dropView()
     }
 }

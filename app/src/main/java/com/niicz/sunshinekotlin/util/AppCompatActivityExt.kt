@@ -1,45 +1,28 @@
 package com.niicz.sunshinekotlin.util
 
-import android.support.annotation.IdRes
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentTransaction
-import android.support.v7.app.ActionBar
-import android.support.v7.app.AppCompatActivity
 
-// taken from https://github.com/googlesamples/android-architecture/tree/dev-todo-mvp-kotlin
-/**
- * The `fragment` is added to the container view with id `frameId`. The operation is
- * performed by the `fragmentManager`.
- */
-fun AppCompatActivity.replaceFragmentInActivity(fragment: Fragment, @IdRes frameId: Int) {
-    supportFragmentManager.transact {
-        replace(frameId, fragment)
-    }
-}
 
 /**
- * The `fragment` is added to the container view with tag. The operation is
- * performed by the `fragmentManager`.
+ * This provides methods to help Activities load their UI.
  */
-fun AppCompatActivity.addFragmentToActivity(fragment: Fragment, tag: String) {
-    supportFragmentManager.transact {
-        add(fragment, tag)
-    }
-}
+object ActivityUtils {
 
-fun AppCompatActivity.setupActionBar(@IdRes toolbarId: Int, action: ActionBar.() -> Unit) {
-    setSupportActionBar(findViewById(toolbarId))
-    supportActionBar?.run {
-        action()
+    /**
+     * The `fragment` is added to the container view with id `frameId`. The operation is
+     * performed by the `fragmentManager`.
+     *
+     */
+    fun addFragmentToActivity(
+        fragmentManager: FragmentManager,
+        fragment: Fragment, frameId: Int
+    ) {
+        checkNotNull(fragmentManager)
+        checkNotNull(fragment)
+        val transaction = fragmentManager.beginTransaction()
+        transaction.add(frameId, fragment)
+        transaction.commit()
     }
-}
 
-/**
- * Runs a FragmentTransaction, then calls commit().
- */
-private inline fun FragmentManager.transact(action: FragmentTransaction.() -> Unit) {
-    beginTransaction().apply {
-        action()
-    }.commit()
 }

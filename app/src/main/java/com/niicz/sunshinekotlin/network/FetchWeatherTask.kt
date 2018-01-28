@@ -16,11 +16,10 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+//TODO remove presenter from constructor(Rx?)
 class FetchWeatherTask(val presenter: ForecastPresenter) : AsyncTask<String, Void, MutableList<String>>() {
 
     private val logTag = FetchWeatherTask::class.java.simpleName
-
 
     private fun getReadableDateString(time: Long): String {
         //TODO change to other dateformat, time gets displayed every 3h

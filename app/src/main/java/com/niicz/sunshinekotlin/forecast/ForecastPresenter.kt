@@ -1,15 +1,15 @@
 package com.niicz.sunshinekotlin.forecast
 
-
+import com.niicz.sunshinekotlin.di.ActivityScoped
 import com.niicz.sunshinekotlin.network.FetchWeatherTask
+import javax.annotation.Nullable
+import javax.inject.Inject
 
-class ForecastPresenter(private val forecastView: ForecastContract.View) :
-    ForecastContract.Presenter {
+@ActivityScoped
+class ForecastPresenter @Inject constructor() : ForecastContract.Presenter {
 
-
-    init {
-        forecastView.presenter = this
-    }
+    @Nullable
+    var forecastView: ForecastContract.View? = null
 
     override fun fetchWeather(location: String, unitType: String) {
         val weatherTask = FetchWeatherTask(this)
@@ -17,7 +17,15 @@ class ForecastPresenter(private val forecastView: ForecastContract.View) :
     }
 
     override fun addToAdapter(result: MutableList<String>) {
-        forecastView.addToAdapter(result)
+        forecastView?.addToAdapter(result)
+    }
+
+    override fun takeView(view: ForecastContract.View) {
+        this.forecastView = view
+    }
+
+    override fun dropView() {
+        forecastView = null
     }
 }
 

@@ -3,33 +3,41 @@ package com.niicz.sunshinekotlin.forecast
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.preference.PreferenceManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.niicz.sunshinekotlin.R
 import com.niicz.sunshinekotlin.settings.SettingsActivity
-import com.niicz.sunshinekotlin.util.replaceFragmentInActivity
+import com.niicz.sunshinekotlin.util.ActivityUtils
+import dagger.Lazy
+import dagger.android.support.DaggerAppCompatActivity
+import javax.inject.Inject
 
 
-class ForecastActivity : AppCompatActivity() {
+class ForecastActivity : DaggerAppCompatActivity() {
 
     private val logTag = ForecastActivity::class.java.simpleName
+
+    @Inject
+    lateinit var forecastPresenter: ForecastPresenter
+    
+    @Inject
+    lateinit var taskFragmentProvider: Lazy<ForecastFragment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forecast)
 
-        //set fragment
-        val forecastFragment = supportFragmentManager
-            .findFragmentById(R.id.fragment_forecast) as ForecastFragment?
-                ?: ForecastFragment.newInstance().also {
-                    replaceFragmentInActivity(it, R.id.activity_forecast)
-                }
-
-        //set presenter
-        ForecastPresenter(forecastFragment)
+        var forecastFragment: ForecastFragment? =
+            supportFragmentManager.findFragmentById(R.id.fragment_forecast) as ForecastFragment
+        if (forecastFragment == null) {
+            // Get the fragment from dagger
+            forecastFragment = taskFragmentProvider!!.get()
+            ActivityUtils.addFragmentToActivity(
+                supportFragmentManager, forecastFragment, R.id.fragment_forecast
+            )
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -56,7 +64,7 @@ class ForecastActivity : AppCompatActivity() {
 
     }
 
-    private fun openPreferredLocationInMap() {
+    fun openPreferredLocationInMap() {
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
         val location = sharedPrefs.getString(
             getString(R.string.pref_location_key),

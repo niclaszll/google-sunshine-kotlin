@@ -5,6 +5,7 @@ import android.view.View
 import android.view.View.OnLongClickListener
 import com.niicz.sunshinekotlin.R
 
+//ItemClickSupport for RecyclerView
 //https://gist.github.com/nesquena/231e356f372f214c4fe6
 //https://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/
 
