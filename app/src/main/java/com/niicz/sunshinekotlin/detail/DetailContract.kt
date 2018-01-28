@@ -7,5 +7,8 @@ interface DetailContract {
 
     interface View : BaseView<Presenter> {}
 
-    interface Presenter : BasePresenter {}
+    interface Presenter : BasePresenter<View> {
+        override fun takeView(view: DetailContract.View)
+        override fun dropView()
+    }
 }

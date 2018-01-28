@@ -9,7 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.niicz.sunshinekotlin.R
 import com.niicz.sunshinekotlin.settings.SettingsActivity
-import com.niicz.sunshinekotlin.util.ActivityUtils
+import com.niicz.sunshinekotlin.util.replaceFragmentInActivity
 import dagger.Lazy
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
@@ -21,22 +21,21 @@ class ForecastActivity : DaggerAppCompatActivity() {
 
     @Inject
     lateinit var forecastPresenter: ForecastPresenter
-    
+
     @Inject
-    lateinit var taskFragmentProvider: Lazy<ForecastFragment>
+    lateinit var forecastFragmentProvider: Lazy<ForecastFragment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forecast)
 
-        var forecastFragment: ForecastFragment? =
-            supportFragmentManager.findFragmentById(R.id.fragment_forecast) as ForecastFragment
+        var forecastFragment =
+            supportFragmentManager.findFragmentById(R.id.fragment_forecast) as ForecastFragment?
+
         if (forecastFragment == null) {
             // Get the fragment from dagger
-            forecastFragment = taskFragmentProvider!!.get()
-            ActivityUtils.addFragmentToActivity(
-                supportFragmentManager, forecastFragment, R.id.fragment_forecast
-            )
+            forecastFragment = forecastFragmentProvider.get()
+            replaceFragmentInActivity(forecastFragment, R.id.activity_forecast)
         }
     }
 

@@ -12,6 +12,7 @@ import com.niicz.sunshinekotlin.di.ActivityScoped
 import com.niicz.sunshinekotlin.util.ItemClickSupport
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.list_item_forecast.view.*
+import javax.annotation.Nullable
 import javax.inject.Inject
 
 @ActivityScoped
@@ -93,16 +94,15 @@ class ForecastFragment @Inject constructor(): DaggerFragment(), ForecastContract
         presenter.takeView(this)
     }
 
+    override fun onDestroy() {
+        presenter.dropView()
+        super.onDestroy()
+
+    }
+
     override fun onStart() {
         super.onStart()
         refreshWeather()
-    }
-
-    companion object {
-
-        fun newInstance(): ForecastFragment {
-            return ForecastFragment()
-        }
     }
 
 }

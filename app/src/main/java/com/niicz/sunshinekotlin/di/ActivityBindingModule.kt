@@ -1,5 +1,7 @@
 package com.niicz.sunshinekotlin.di
 
+import com.niicz.sunshinekotlin.detail.DetailActivity
+import com.niicz.sunshinekotlin.detail.DetailModule
 import com.niicz.sunshinekotlin.forecast.ForecastActivity
 import com.niicz.sunshinekotlin.forecast.ForecastModule
 import dagger.Module
@@ -18,5 +20,9 @@ abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = [(ForecastModule::class)])
     abstract fun forecastActivity(): ForecastActivity
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [(DetailModule::class)])
+    abstract fun detailActivity(): DetailActivity
 
 }

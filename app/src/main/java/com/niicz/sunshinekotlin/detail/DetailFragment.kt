@@ -2,17 +2,20 @@ package com.niicz.sunshinekotlin.detail
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.niicz.sunshinekotlin.R
+import com.niicz.sunshinekotlin.di.ActivityScoped
+import dagger.android.support.DaggerFragment
+import javax.inject.Inject
 
+@ActivityScoped
+class DetailFragment @Inject constructor(): DaggerFragment(), DetailContract.View {
 
-class DetailFragment : Fragment(), DetailContract.View {
-
-    override lateinit var presenter: DetailContract.Presenter
+    @Inject
+    lateinit var presenter: DetailContract.Presenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_detail, container, false)
@@ -28,11 +31,15 @@ class DetailFragment : Fragment(), DetailContract.View {
         return rootView
     }
 
-    companion object {
+    override fun onResume() {
+        super.onResume()
+        presenter.takeView(this)
+    }
 
-        fun newInstance(): DetailFragment {
-            return DetailFragment()
-        }
+    override fun onDestroy() {
+        presenter.dropView()
+        super.onDestroy()
+
     }
 
 }

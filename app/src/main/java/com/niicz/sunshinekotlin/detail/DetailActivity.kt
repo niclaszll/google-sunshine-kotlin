@@ -2,29 +2,36 @@ package com.niicz.sunshinekotlin.detail
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.niicz.sunshinekotlin.R
 import com.niicz.sunshinekotlin.settings.SettingsActivity
 import com.niicz.sunshinekotlin.util.replaceFragmentInActivity
+import dagger.android.support.DaggerAppCompatActivity
+import javax.inject.Inject
 
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : DaggerAppCompatActivity() {
+
+    @Inject
+    lateinit var detailPresenter: DetailPresenter
+
+    @Inject
+    lateinit var detailFragmentProvider: Lazy<DetailFragment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        //set fragment
-        val detailFragment = supportFragmentManager
-            .findFragmentById(R.id.fragment_detail) as DetailFragment?
-                ?: DetailFragment.newInstance().also {
-                    replaceFragmentInActivity(it, R.id.activity_detail)
-                }
+        var detailFragment =
+            supportFragmentManager.findFragmentById(R.id.fragment_detail) as DetailFragment?
 
-        //set presenter
-        DetailPresenter(detailFragment)
+        if (detailFragment == null) {
+            // Get the fragment from dagger
+            detailFragment = detailFragmentProvider.get()
+
+            replaceFragmentInActivity(detailFragment, R.id.activity_detail)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -42,6 +49,11 @@ class DetailActivity : AppCompatActivity() {
             true
         } else super.onOptionsItemSelected(item)
 
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
 

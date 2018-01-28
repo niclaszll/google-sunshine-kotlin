@@ -1,10 +1,21 @@
 package com.niicz.sunshinekotlin.detail
 
-class DetailPresenter(private val detailView: DetailContract.View) :
-    DetailContract.Presenter {
+import com.niicz.sunshinekotlin.di.ActivityScoped
+import javax.annotation.Nullable
+import javax.inject.Inject
 
-    init {
-        detailView.presenter = this
+@ActivityScoped
+class DetailPresenter @Inject constructor() : DetailContract.Presenter {
+
+    @Nullable
+    var detailView: DetailContract.View? = null
+
+    override fun takeView(view: DetailContract.View) {
+        this.detailView = view
+    }
+
+    override fun dropView() {
+        detailView = null
     }
 
 }
