@@ -3,6 +3,7 @@ package com.niicz.sunshinekotlin.settings
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.niicz.sunshinekotlin.R
+import com.niicz.sunshinekotlin.util.replaceFragmentInActivity
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -12,11 +13,11 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         //set fragment
-        /*supportFragmentManager
+        supportFragmentManager
             .findFragmentById(R.id.fragment_settings) as SettingsFragment?
                 ?: SettingsFragment.newInstance().also {
                     replaceFragmentInActivity(it, R.id.activity_settings)
-                }*/
+                }
 
     }
 
