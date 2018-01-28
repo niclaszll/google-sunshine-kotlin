@@ -63,7 +63,7 @@ class ForecastActivity : DaggerAppCompatActivity() {
 
     }
 
-    fun openPreferredLocationInMap() {
+    private fun openPreferredLocationInMap() {
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
         val location = sharedPrefs.getString(
             getString(R.string.pref_location_key),

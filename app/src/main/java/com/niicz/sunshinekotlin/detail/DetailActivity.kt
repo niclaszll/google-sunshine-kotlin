@@ -7,6 +7,7 @@ import android.view.MenuItem
 import com.niicz.sunshinekotlin.R
 import com.niicz.sunshinekotlin.settings.SettingsActivity
 import com.niicz.sunshinekotlin.util.replaceFragmentInActivity
+import dagger.Lazy
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -29,7 +30,6 @@ class DetailActivity : DaggerAppCompatActivity() {
         if (detailFragment == null) {
             // Get the fragment from dagger
             detailFragment = detailFragmentProvider.get()
-
             replaceFragmentInActivity(detailFragment, R.id.activity_detail)
         }
     }
