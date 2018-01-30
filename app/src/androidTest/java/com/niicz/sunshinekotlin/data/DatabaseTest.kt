@@ -15,9 +15,9 @@ open class DatabaseTest {
 
     private lateinit var weatherDatabase: WeatherDatabase
     private val weatherEntry: WeatherContract.WeatherEntry =
-        WeatherContract.WeatherEntry(1, 1, "", "", 1.0, 1.0, 1.0, 1.0, 1.0, "0")
+        WeatherContract.WeatherEntry()
     private val locationEntry: WeatherContract.LocationEntry =
-        WeatherContract.LocationEntry(1, "", "", "", "")
+        WeatherContract.LocationEntry()
 
     @Before
     fun initDb() {
@@ -37,9 +37,7 @@ open class DatabaseTest {
 
         weatherDatabase.locationDao().insertAll(listOf(locationEntry))
         weatherDatabase.weatherDao().insertAll(listOf(weatherEntry))
-
         assertEquals(weatherDatabase.weatherDao().getAll()[0], weatherEntry)
-
     }
 
     @Test
