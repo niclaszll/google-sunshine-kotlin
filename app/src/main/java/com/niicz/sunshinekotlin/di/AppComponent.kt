@@ -15,14 +15,17 @@ import javax.inject.Singleton
  *
  *
  * Even though Dagger allows annotating a [Component] as a singleton, the code
- * itself must ensure only one instance of the class is created. This is done in [ ].
- * //[AndroidSupportInjectionModule]
- * // is the module from Dagger.Android that helps with the generation
- * // and location of subcomponents.
+ * itself must ensure only one instance of the class is created. This is done in [WeatherApplication].
+ * [AndroidSupportInjectionModule] is the module from Dagger.Android that helps with the generation
+ * and location of subcomponents.
  */
 @Singleton
 @Component(
-    modules = [(ApplicationModule::class), (ActivityBindingModule::class), (AndroidSupportInjectionModule::class)]
+    modules =
+    [(ApplicationModule::class),
+        (ActivityBindingModule::class),
+        (AndroidSupportInjectionModule::class),
+        (NetworkModule::class)]
 )
 interface AppComponent : AndroidInjector<WeatherApplication> {
 

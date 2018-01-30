@@ -9,7 +9,7 @@ import javax.inject.Inject
 class ForecastPresenter @Inject constructor() : ForecastContract.Presenter {
 
     @Nullable
-    var forecastView: ForecastContract.View? = null
+    private var forecastView: ForecastContract.View? = null
 
     override fun fetchWeather(location: String, unitType: String) {
         val weatherTask = FetchWeatherTask(this)

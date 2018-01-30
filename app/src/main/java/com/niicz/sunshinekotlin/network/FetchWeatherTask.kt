@@ -15,9 +15,13 @@ import java.net.URL
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 //TODO remove presenter from constructor(Rx?)
 class FetchWeatherTask(val presenter: ForecastPresenter) : AsyncTask<String, Void, MutableList<String>>() {
+
+    //@Inject
+    //lateinit var client: OkHttpClient
 
     private val logTag = FetchWeatherTask::class.java.simpleName
 

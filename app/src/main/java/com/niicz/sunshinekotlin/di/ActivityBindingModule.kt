@@ -4,6 +4,7 @@ import com.niicz.sunshinekotlin.detail.DetailActivity
 import com.niicz.sunshinekotlin.detail.DetailModule
 import com.niicz.sunshinekotlin.forecast.ForecastActivity
 import com.niicz.sunshinekotlin.forecast.ForecastModule
+import com.niicz.sunshinekotlin.network.FetchWeatherTask
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

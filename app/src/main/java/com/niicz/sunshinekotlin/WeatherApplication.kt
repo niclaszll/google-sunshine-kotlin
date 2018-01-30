@@ -12,6 +12,7 @@ import com.niicz.sunshinekotlin.di.DaggerAppComponent
  * We never have to call `component.inject(this)` as [DaggerApplication] will do that for us.
  */
 class WeatherApplication : DaggerApplication() {
+
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerAppComponent.builder().application(this).build()
     }
