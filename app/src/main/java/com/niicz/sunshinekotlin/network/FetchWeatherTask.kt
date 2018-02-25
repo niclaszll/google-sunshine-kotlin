@@ -19,7 +19,7 @@ import javax.inject.Inject
 class FetchWeatherTask @Inject constructor(private var client: OkHttpClient) :
     AsyncTask<String, Void, MutableList<String>>() {
 
-    //needed for return in onPostExecute
+    // needed for return in onPostExecute
     //https://stackoverflow.com/questions/12575068/how-to-get-the-result-of-onpostexecute-to-main-activity-because-asynctask-is-a
     interface AsyncResponse {
         fun processFinish(output: MutableList<String>)
