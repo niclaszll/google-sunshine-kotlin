@@ -2,10 +2,12 @@ package com.niicz.sunshinekotlin.di
 
 import android.app.Application
 import com.niicz.sunshinekotlin.WeatherApplication
+import com.niicz.sunshinekotlin.network.FetchWeatherTask
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
+import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
 
@@ -22,12 +24,15 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules =
-    [(ApplicationModule::class),
+    [(AppModule::class),
         (ActivityBindingModule::class),
         (AndroidSupportInjectionModule::class),
         (NetworkModule::class)]
 )
 interface AppComponent : AndroidInjector<WeatherApplication> {
+
+    fun provideOkhttpClient(): OkHttpClient
+    fun provideFWT(): FetchWeatherTask
 
     // Gives us syntactic sugar. we can then do DaggerAppComponent.builder().application(this).build().inject(this);
     // never having to instantiate any modules or say which module we are passing the application to.

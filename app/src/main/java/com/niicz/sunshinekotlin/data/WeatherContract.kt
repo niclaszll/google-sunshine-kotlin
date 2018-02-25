@@ -16,8 +16,6 @@ class WeatherContract {
         return time.setJulianDay(julianDay)
     }
 
-    //TODO overthink companion object, ...
-
     @Entity(tableName = LocationEntry.TABLE_NAME)
     class LocationEntry(
         @PrimaryKey(autoGenerate = true)
@@ -31,9 +29,9 @@ class WeatherContract {
         val coordLat: String,
         @ColumnInfo(name = COLUMN_COORD_LONG)
         val coordLong: String
-    ){
+    ) {
         @Ignore
-        constructor(): this(1, "", "", "", "")
+        constructor() : this(1, "", "", "", "")
 
         companion object {
             const val TABLE_NAME = "location"
@@ -44,6 +42,7 @@ class WeatherContract {
             const val COLUMN_COORD_LONG = "coordLong"
         }
     }
+
 
     @Entity(
         tableName = WeatherEntry.TABLE_NAME,
@@ -114,8 +113,8 @@ class WeatherContract {
             const val COLUMN_PRESSURE = "pressure"
             const val COLUMN_WIND_SPEED = "wind"
             const val COLUMN_DEGREES = "degrees"
+
         }
 
     }
-
 }

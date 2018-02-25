@@ -1,6 +1,7 @@
 package com.niicz.sunshinekotlin.data
 
 import android.arch.persistence.room.*
+import android.database.Cursor
 
 
 @Dao
@@ -13,7 +14,7 @@ interface WeatherDao {
     fun insertAll(weatherEntries: List<WeatherContract.WeatherEntry>)
 
     @Update
-    fun update(weatherEntries: WeatherContract.WeatherEntry)
+    fun update(weatherEntry: WeatherContract.WeatherEntry)
 
     @Query("DELETE FROM weather")
     fun clearWeatherTable()
@@ -23,4 +24,7 @@ interface WeatherDao {
 
     @Query("SELECT * FROM weather WHERE locationKey=:locationID")
     fun findWeatherForLocation(locationID: Long): List<WeatherContract.WeatherEntry>
+
+    @Query("SELECT * FROM " + WeatherContract.WeatherEntry.TABLE_NAME)
+    fun selectAll(): Cursor
 }

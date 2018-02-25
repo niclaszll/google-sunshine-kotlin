@@ -5,7 +5,6 @@ import android.os.AsyncTask
 import android.text.format.Time
 import android.util.Log
 import com.niicz.sunshinekotlin.BuildConfig
-import com.niicz.sunshinekotlin.forecast.ForecastPresenter
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONException
@@ -17,11 +16,16 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-//TODO remove presenter from constructor(Rx?)
-class FetchWeatherTask(val presenter: ForecastPresenter) : AsyncTask<String, Void, MutableList<String>>() {
+class FetchWeatherTask @Inject constructor(private var client: OkHttpClient) :
+    AsyncTask<String, Void, MutableList<String>>() {
 
-    //@Inject
-    //lateinit var client: OkHttpClient
+    //needed for return in onPostExecute
+    //https://stackoverflow.com/questions/12575068/how-to-get-the-result-of-onpostexecute-to-main-activity-because-asynctask-is-a
+    interface AsyncResponse {
+        fun processFinish(output: MutableList<String>)
+    }
+
+    var delegate: AsyncResponse? = null
 
     private val logTag = FetchWeatherTask::class.java.simpleName
 
@@ -101,6 +105,7 @@ class FetchWeatherTask(val presenter: ForecastPresenter) : AsyncTask<String, Voi
 
     override fun doInBackground(vararg p0: String): MutableList<String> {
 
+
         var forecastJsonStr: String? = null
         val format = "json"
         val units = "metric"
@@ -118,7 +123,6 @@ class FetchWeatherTask(val presenter: ForecastPresenter) : AsyncTask<String, Voi
         Log.v("test", url.toString())
 
         try {
-            val client = OkHttpClient()
             val request: Request = Request.Builder().url(url).build()
             val response = client.newCall(request).execute()
             forecastJsonStr = response?.body()?.string()
@@ -142,7 +146,7 @@ class FetchWeatherTask(val presenter: ForecastPresenter) : AsyncTask<String, Voi
 
     override fun onPostExecute(result: MutableList<String>) {
         if (result.isNotEmpty()) {
-            presenter.addToAdapter(result)
+            delegate?.processFinish(result)
         }
     }
 

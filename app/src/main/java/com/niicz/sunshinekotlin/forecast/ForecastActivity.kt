@@ -20,9 +20,6 @@ class ForecastActivity : DaggerAppCompatActivity() {
     private val logTag = ForecastActivity::class.java.simpleName
 
     @Inject
-    lateinit var forecastPresenter: ForecastPresenter
-
-    @Inject
     lateinit var forecastFragmentProvider: Lazy<ForecastFragment>
 
     override fun onCreate(savedInstanceState: Bundle?) {

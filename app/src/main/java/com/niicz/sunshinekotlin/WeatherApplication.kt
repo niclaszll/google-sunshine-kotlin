@@ -1,9 +1,9 @@
 package com.niicz.sunshinekotlin
 
 import android.app.Application
+import com.niicz.sunshinekotlin.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
-import com.niicz.sunshinekotlin.di.DaggerAppComponent
 
 
 /**

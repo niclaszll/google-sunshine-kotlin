@@ -4,7 +4,6 @@ import com.niicz.sunshinekotlin.di.ActivityScoped
 import com.niicz.sunshinekotlin.di.FragmentScoped
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 
 
