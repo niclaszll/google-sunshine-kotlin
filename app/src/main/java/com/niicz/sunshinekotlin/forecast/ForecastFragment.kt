@@ -1,6 +1,7 @@
 package com.niicz.sunshinekotlin.forecast
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.preference.PreferenceManager
 import android.support.v7.widget.LinearLayoutManager
@@ -71,16 +72,7 @@ class ForecastFragment @Inject constructor(): DaggerFragment(), ForecastContract
     }
 
     override fun refreshWeather() {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
-        val location = prefs.getString(
-            getString(R.string.pref_location_key),
-            getString(R.string.pref_location_default)
-        )
-        val unitType = prefs.getString(
-            getString(R.string.pref_units_key),
-            getString(R.string.pref_units_metric)
-        )
-        presenter.fetchWeather(location, unitType)
+        presenter.fetchWeather()
     }
 
     override fun addToAdapter(dayForecastStrs: MutableList<String>) {

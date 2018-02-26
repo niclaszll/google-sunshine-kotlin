@@ -15,11 +15,11 @@ class ForecastPresenter @Inject constructor() : ForecastContract.Presenter, Fetc
     @Nullable
     private var forecastView: ForecastContract.View? = null
 
-    override fun fetchWeather(location: String, unitType: String) {
+    override fun fetchWeather() {
         //AsyncTask response
         val fetchWeatherTask = fetchWeatherTaskProvider.get()
         fetchWeatherTask.delegate = this
-        fetchWeatherTask.execute(location, unitType)
+        fetchWeatherTask.execute()
     }
 
     override fun addToAdapter(result: MutableList<String>) {

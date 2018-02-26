@@ -17,21 +17,43 @@ class WeatherContract {
     }
 
     @Entity(tableName = LocationEntry.TABLE_NAME)
-    class LocationEntry(
+    class LocationEntry {
+
         @PrimaryKey(autoGenerate = true)
-        @ColumnInfo(name = COLUMN_lID)
-        val lID: Long,
+        @ColumnInfo(index = true, name = COLUMN_lID)
+        var lID: Long = 0
+
         @ColumnInfo(name = COLUMN_LOCATION_SETTING)
-        val locationSetting: String,
+        var locationSetting: String = ""
+
         @ColumnInfo(name = COLUMN_CITY_NAME)
-        val city: String,
+        var city: String = ""
+
         @ColumnInfo(name = COLUMN_COORD_LAT)
-        val coordLat: String,
+        var coordLat: String = ""
+
         @ColumnInfo(name = COLUMN_COORD_LONG)
-        val coordLong: String
-    ) {
-        @Ignore
-        constructor() : this(1, "", "", "", "")
+        var coordLong: String = ""
+
+        fun fromContentValues(values: ContentValues): LocationEntry {
+            val locationEntry = LocationEntry()
+            if (values.containsKey(LocationEntry.COLUMN_lID)) {
+                locationEntry.lID = values.getAsLong(COLUMN_lID)
+            }
+            if (values.containsKey(LocationEntry.COLUMN_LOCATION_SETTING)) {
+                locationEntry.locationSetting = values.getAsString(LocationEntry.COLUMN_LOCATION_SETTING)!!
+            }
+            if (values.containsKey(LocationEntry.COLUMN_CITY_NAME)) {
+                locationEntry.city = values.getAsString(LocationEntry.COLUMN_CITY_NAME)
+            }
+            if (values.containsKey(LocationEntry.COLUMN_COORD_LAT)) {
+                locationEntry.coordLat = values.getAsString(LocationEntry.COLUMN_COORD_LAT)
+            }
+            if (values.containsKey(LocationEntry.COLUMN_COORD_LONG)) {
+                locationEntry.coordLong = values.getAsString(LocationEntry.COLUMN_COORD_LONG)
+            }
+            return locationEntry
+        }
 
         companion object {
             const val TABLE_NAME = "location"

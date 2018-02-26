@@ -1,7 +1,12 @@
 package com.niicz.sunshinekotlin.di
 
 import android.app.Application
+import android.arch.persistence.room.RoomDatabase
+import android.content.SharedPreferences
 import com.niicz.sunshinekotlin.WeatherApplication
+import com.niicz.sunshinekotlin.data.LocationDao
+import com.niicz.sunshinekotlin.data.WeatherDao
+import com.niicz.sunshinekotlin.data.WeatherDatabase
 import com.niicz.sunshinekotlin.network.FetchWeatherTask
 import dagger.BindsInstance
 import dagger.Component
@@ -27,12 +32,18 @@ import javax.inject.Singleton
     [(AppModule::class),
         (ActivityBindingModule::class),
         (AndroidSupportInjectionModule::class),
-        (NetworkModule::class)]
+        (NetworkModule::class),
+        (SharedPrefsModule::class),
+        (RoomModule::class)]
 )
 interface AppComponent : AndroidInjector<WeatherApplication> {
 
+    fun provideSharedPreferences(): SharedPreferences
     fun provideOkhttpClient(): OkHttpClient
     fun provideFWT(): FetchWeatherTask
+    fun provideRoomDatabase(): WeatherDatabase
+    fun provideWeatherDao(): WeatherDao
+    fun provideLocationDao(): LocationDao
 
     // Gives us syntactic sugar. we can then do DaggerAppComponent.builder().application(this).build().inject(this);
     // never having to instantiate any modules or say which module we are passing the application to.

@@ -14,7 +14,7 @@ interface ForecastContract {
 
     interface Presenter : BasePresenter<View> {
 
-        fun fetchWeather(location: String, unitType: String)
+        fun fetchWeather()
         fun addToAdapter(result: MutableList<String>)
         override fun takeView(view: ForecastContract.View)
         override fun dropView()
