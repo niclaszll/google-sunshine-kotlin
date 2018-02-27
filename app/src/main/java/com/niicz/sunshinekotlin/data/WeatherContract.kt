@@ -75,41 +75,32 @@ class WeatherContract {
             onDelete = ForeignKey.CASCADE
         ))]
     )
-    class WeatherEntry(
+    class WeatherEntry{
+
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(index = true, name = COLUMN_wID)
-        var wID: Long,
+        var wID: Long = 0
         @ColumnInfo(name = COLUMN_LOC_KEY)
-        var locationKey: Long,
+        var locationKey: Long = 0
         @ColumnInfo(name = COLUMN_DATE)
-        val date: String,
+        var date: String = ""
         @ColumnInfo(name = COLUMN_WEATHER_ID)
-        val weatherID: String,
+        var weatherID: String = ""
         @ColumnInfo(name = COLUMN_SHORT_DESC)
-        val description: String,
+        var description: String = ""
         @ColumnInfo(name = COLUMN_MIN_TEMP)
-        val min: Double,
+        var min: Double = 0.0
         @ColumnInfo(name = COLUMN_MAX_TEMP)
-        val max: Double,
+        var max: Double = 0.0
         @ColumnInfo(name = COLUMN_HUMIDITY)
-        val humidity: Double,
+        var humidity: Double = 0.0
         @ColumnInfo(name = COLUMN_PRESSURE)
-        val pressure: Double,
+        var pressure: Double = 0.0
         @ColumnInfo(name = COLUMN_WIND_SPEED)
-        val wind: Double,
+        var wind: Double = 0.0
         @ColumnInfo(name = COLUMN_DEGREES)
-        val degrees: String
-    ) {
+        var degrees: String = ""
 
-        @Ignore
-        constructor() : this(1, 1, "", "", "", 0.0, 0.0, 0.0, 0.0, 0.0, "")
-
-        /**
-         * Create a new [WeatherEntry] from the specified [ContentValues].
-         *
-         * @param values A [ContentValues] that at least contain [.COLUMN_KEY].
-         * @return A newly created [WeatherEntry] instance.
-         */
         fun fromContentValues(values: ContentValues): WeatherEntry {
             val weatherEntry = WeatherEntry()
             if (values.containsKey(WeatherEntry.COLUMN_wID)) {
@@ -117,6 +108,33 @@ class WeatherContract {
             }
             if (values.containsKey(WeatherEntry.COLUMN_LOC_KEY)) {
                 weatherEntry.locationKey = values.getAsLong(WeatherEntry.COLUMN_LOC_KEY)
+            }
+            if (values.containsKey(WeatherEntry.COLUMN_DATE)) {
+                weatherEntry.date = values.getAsString(WeatherEntry.COLUMN_DATE)
+            }
+            if (values.containsKey(WeatherEntry.COLUMN_WEATHER_ID)) {
+                weatherEntry.weatherID = values.getAsString(WeatherEntry.COLUMN_WEATHER_ID)
+            }
+            if (values.containsKey(WeatherEntry.COLUMN_SHORT_DESC)) {
+                weatherEntry.description = values.getAsString(WeatherEntry.COLUMN_SHORT_DESC)
+            }
+            if (values.containsKey(WeatherEntry.COLUMN_MIN_TEMP)) {
+                weatherEntry.min = values.getAsDouble(WeatherEntry.COLUMN_MIN_TEMP)
+            }
+            if (values.containsKey(WeatherEntry.COLUMN_MAX_TEMP)) {
+                weatherEntry.max = values.getAsDouble(WeatherEntry.COLUMN_MAX_TEMP)
+            }
+            if (values.containsKey(WeatherEntry.COLUMN_HUMIDITY)) {
+                weatherEntry.humidity = values.getAsDouble(WeatherEntry.COLUMN_HUMIDITY)
+            }
+            if (values.containsKey(WeatherEntry.COLUMN_PRESSURE)) {
+                weatherEntry.pressure = values.getAsDouble(WeatherEntry.COLUMN_PRESSURE)
+            }
+            if (values.containsKey(WeatherEntry.COLUMN_WIND_SPEED)) {
+                weatherEntry.wind = values.getAsDouble(WeatherEntry.COLUMN_WIND_SPEED)
+            }
+            if (values.containsKey(WeatherEntry.COLUMN_DEGREES)) {
+                weatherEntry.degrees = values.getAsString(WeatherEntry.COLUMN_DEGREES)
             }
             return weatherEntry
         }

@@ -12,6 +12,7 @@ import com.niicz.sunshinekotlin.WeatherApplication
 import com.niicz.sunshinekotlin.data.LocationDao
 import com.niicz.sunshinekotlin.data.WeatherContract
 import com.niicz.sunshinekotlin.data.WeatherContract.WeatherEntry
+import com.niicz.sunshinekotlin.data.WeatherDao
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONException
@@ -24,7 +25,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, private val sharedPreferences: SharedPreferences, private val locationDao: LocationDao) :
+class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, private val sharedPreferences: SharedPreferences, private val locationDao: LocationDao, private val weatherDao: WeatherDao) :
     AsyncTask<String, Void, MutableList<String>>() {
 
     private val logTag = FetchWeatherTask::class.java.simpleName
@@ -90,7 +91,6 @@ class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, pri
         val owmWeatherID = "id"
 
         try {
-
             val forecastJson = JSONObject(forecastJsonStr)
             val weatherList = forecastJson.getJSONArray(owmList)
             val cityJson = forecastJson.getJSONObject(owmCity)
@@ -99,10 +99,9 @@ class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, pri
             val cityLatitude = cityCoord.getDouble(owmLatitude)
             val cityLongitude = cityCoord.getDouble(owmLongitude)
 
-            //working?
             val locationId = addLocation(locationSetting, cityName, cityLatitude, cityLongitude)
 
-            // Insert the new weather information into the database
+            // gets later inserted - maybe change to mutableList?
             val cVVector = Vector<ContentValues>(weatherList.length())
 
             //TODO change Time(deprecated)!
@@ -111,13 +110,11 @@ class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, pri
             val julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff)
             dayTime = Time()
 
-            val resultStrs: MutableList<String> = LinkedList()
-
             for (i in 0 until weatherList.length()) {
 
                 val dateTime: Long = dayTime.setJulianDay(julianStartDay + i / 8)
-                val day = getReadableDateString(dateTime)
 
+                //dayobject
                 val dayForecast = weatherList.getJSONObject(i)
 
                 // main
@@ -137,10 +134,8 @@ class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, pri
                 val windSpeed = windObject.getDouble(owmWindspeed)
                 val windDirection = windObject.getDouble(owmWinddirection)
 
-                val highAndLow = formatHighLows(high, low)
-                resultStrs.add("$day | $description | $highAndLow")
-
                 val weatherValues = ContentValues()
+
                 weatherValues.put(WeatherEntry.COLUMN_LOC_KEY, locationId)
                 weatherValues.put(WeatherEntry.COLUMN_DATE, dateTime)
                 weatherValues.put(WeatherEntry.COLUMN_HUMIDITY, humidity)
@@ -157,8 +152,13 @@ class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, pri
 
             // add to database
             if (cVVector.size > 0) {
-                // Student: call bulkInsert to add the weatherEntries to the database here
+                for (item in cVVector) {
+                    weatherDao.insert(WeatherEntry().fromContentValues(item))
+                }
+
             }
+
+            Log.d(logTag, "FetchWeatherTask Complete. " + cVVector.size + " Inserted")
 
             return convertContentValuesToUXFormat(cVVector)
 
@@ -172,11 +172,11 @@ class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, pri
 
     }
 
-    //TODO mabye add check for empty
+    //TODO maybe add check for empty
     private fun addLocation(locationSetting: String, cityName: String, lat: Double, lon: Double): Long {
 
         //return id if city already in db
-        for (item in locationDao.getAll()){
+        for (item in locationDao.getAll()) {
             if (item.city == cityName) return item.lID
         }
 
@@ -204,9 +204,11 @@ class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, pri
                 weatherValues.getAsDouble(WeatherEntry.COLUMN_MAX_TEMP),
                 weatherValues.getAsDouble(WeatherEntry.COLUMN_MIN_TEMP)
             )
-            resultStrs.add(getReadableDateString(weatherValues.getAsLong(WeatherEntry.COLUMN_DATE)) +
-                    " - " + weatherValues.getAsString(WeatherEntry.COLUMN_SHORT_DESC) +
-                    " - " + highAndLow)
+            resultStrs.add(
+                getReadableDateString(weatherValues.getAsLong(WeatherEntry.COLUMN_DATE)) +
+                        " | " + weatherValues.getAsString(WeatherEntry.COLUMN_SHORT_DESC) +
+                        " | " + highAndLow
+            )
         }
         return resultStrs
     }

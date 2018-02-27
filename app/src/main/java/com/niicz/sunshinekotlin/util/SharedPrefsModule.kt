@@ -1,4 +1,4 @@
-package com.niicz.sunshinekotlin.di
+package com.niicz.sunshinekotlin.util
 
 import android.content.Context
 import android.content.SharedPreferences

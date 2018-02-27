@@ -3,7 +3,6 @@ package com.niicz.sunshinekotlin.data
 import android.arch.persistence.room.*
 import android.database.Cursor
 
-
 @Dao
 interface WeatherDao {
 
@@ -12,6 +11,9 @@ interface WeatherDao {
 
     @Insert
     fun insertAll(weatherEntries: List<WeatherContract.WeatherEntry>)
+
+    @Insert
+    fun insert(weatherEntry: WeatherContract.WeatherEntry)
 
     @Update
     fun update(weatherEntry: WeatherContract.WeatherEntry)

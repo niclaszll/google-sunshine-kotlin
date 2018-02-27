@@ -1,13 +1,15 @@
 package com.niicz.sunshinekotlin.di
 
 import android.app.Application
-import android.arch.persistence.room.RoomDatabase
 import android.content.SharedPreferences
 import com.niicz.sunshinekotlin.WeatherApplication
 import com.niicz.sunshinekotlin.data.LocationDao
+import com.niicz.sunshinekotlin.data.RoomModule
 import com.niicz.sunshinekotlin.data.WeatherDao
 import com.niicz.sunshinekotlin.data.WeatherDatabase
 import com.niicz.sunshinekotlin.network.FetchWeatherTask
+import com.niicz.sunshinekotlin.network.NetworkModule
+import com.niicz.sunshinekotlin.util.SharedPrefsModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector

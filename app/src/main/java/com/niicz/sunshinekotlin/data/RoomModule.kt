@@ -1,11 +1,7 @@
-package com.niicz.sunshinekotlin.di
+package com.niicz.sunshinekotlin.data
 
 import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
 import android.content.Context
-import com.niicz.sunshinekotlin.data.LocationDao
-import com.niicz.sunshinekotlin.data.WeatherDao
-import com.niicz.sunshinekotlin.data.WeatherDatabase
 import dagger.Module
 import dagger.Provides
 
