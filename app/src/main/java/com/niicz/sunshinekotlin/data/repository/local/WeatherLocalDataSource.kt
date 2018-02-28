@@ -1,6 +1,8 @@
 package com.niicz.sunshinekotlin.data.repository.local
 
 import com.niicz.sunshinekotlin.data.repository.WeatherDataSource
+import com.niicz.sunshinekotlin.data.room.WeatherContract
+import com.niicz.sunshinekotlin.data.room.WeatherDao
 import io.reactivex.Flowable
 import javax.inject.Inject
 

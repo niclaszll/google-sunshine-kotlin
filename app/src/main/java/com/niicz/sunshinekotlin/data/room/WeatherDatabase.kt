@@ -1,4 +1,4 @@
-package com.niicz.sunshinekotlin.data.repository.local
+package com.niicz.sunshinekotlin.data.room
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase

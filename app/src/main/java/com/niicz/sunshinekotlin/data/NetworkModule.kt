@@ -1,4 +1,4 @@
-package com.niicz.sunshinekotlin.network
+package com.niicz.sunshinekotlin.data
 
 import dagger.Module
 import dagger.Provides
@@ -15,6 +15,12 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule {
+
+    @Provides
+    @Named("base_url")
+    fun provideBaseUrl(): String {
+        return Config.API_HOST
+    }
 
     @Provides
     @Singleton

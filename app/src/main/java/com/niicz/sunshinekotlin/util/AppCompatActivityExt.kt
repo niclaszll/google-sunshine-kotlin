@@ -20,23 +20,6 @@ fun AppCompatActivity.replaceFragmentInActivity(fragment: Fragment?, @IdRes fram
 }
 
 /**
- * The `fragment` is added to the container view with tag. The operation is
- * performed by the `fragmentManager`.
- */
-fun AppCompatActivity.addFragmentToActivity(fragment: Fragment, tag: String) {
-    supportFragmentManager.transact {
-        add(fragment, tag)
-    }
-}
-
-fun AppCompatActivity.setupActionBar(@IdRes toolbarId: Int, action: ActionBar.() -> Unit) {
-    setSupportActionBar(findViewById(toolbarId))
-    supportActionBar?.run {
-        action()
-    }
-}
-
-/**
  * Runs a FragmentTransaction, then calls commit().
  */
 private inline fun FragmentManager.transact(action: FragmentTransaction.() -> Unit) {

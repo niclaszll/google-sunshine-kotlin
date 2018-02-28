@@ -1,6 +1,6 @@
 package com.niicz.sunshinekotlin.data.repository
 
-import com.niicz.sunshinekotlin.data.repository.local.WeatherContract
+import com.niicz.sunshinekotlin.data.room.WeatherContract
 import io.reactivex.Flowable
 
 

@@ -3,8 +3,8 @@ package com.niicz.sunshinekotlin.data
 import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import com.niicz.sunshinekotlin.data.repository.local.WeatherDatabase
-import com.niicz.sunshinekotlin.data.repository.local.WeatherContract
+import com.niicz.sunshinekotlin.data.room.WeatherDatabase
+import com.niicz.sunshinekotlin.data.room.WeatherContract
 import org.junit.After
 import org.junit.Before
 import org.junit.runner.RunWith
