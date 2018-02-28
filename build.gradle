@@ -48,6 +48,10 @@ ext {
     okhttpVersion = '3.8.1'
     roomVersion = '1.0.0'
     livedataVersion = '1.1.0'
+    retrofitVersion = '2.3.0'
+    rxJavaVersion = '2.1.9'
+    rxAndroidVersion = '2.0.2'
+    gsonVersion = '2.8.2'
 
 
 }

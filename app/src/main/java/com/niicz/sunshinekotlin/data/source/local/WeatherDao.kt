@@ -1,13 +1,14 @@
-package com.niicz.sunshinekotlin.data
+package com.niicz.sunshinekotlin.data.source.local
 
 import android.arch.persistence.room.*
-import android.database.Cursor
+import com.niicz.sunshinekotlin.data.WeatherContract
+import io.reactivex.Flowable
 
 @Dao
 interface WeatherDao {
 
     @Query("SELECT * FROM weather")
-    fun getAll(): List<WeatherContract.WeatherEntry>
+    fun getAll(): Flowable<List<WeatherContract.WeatherEntry>>
 
     @Insert
     fun insertAll(weatherEntries: List<WeatherContract.WeatherEntry>)
@@ -26,7 +27,4 @@ interface WeatherDao {
 
     @Query("SELECT * FROM weather WHERE locationKey=:locationID")
     fun findWeatherForLocation(locationID: Long): List<WeatherContract.WeatherEntry>
-
-    @Query("SELECT * FROM " + WeatherContract.WeatherEntry.TABLE_NAME)
-    fun selectAll(): Cursor
 }

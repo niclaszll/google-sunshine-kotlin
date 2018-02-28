@@ -31,6 +31,7 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
+    //android support
     implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     implementation "com.android.support:preference-v7:$rootProject.supportLibraryVersion"
     implementation "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
@@ -42,9 +43,11 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:$rootProject.runnerVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
 
-    // OkHTTP
-    implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion"
-
+    // Retrofit & OkHttp
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpVersion"
 
     // Dagger
     provided 'org.glassfish:javax.annotation:10.0-b28'
@@ -53,7 +56,6 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
-
 
     // ViewModel and LiveData
     implementation "android.arch.lifecycle:extensions:$rootProject.livedataVersion"
@@ -64,6 +66,12 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
     kapt "android.arch.persistence.room:compiler:$rootProject.roomVersion"
     testImplementation "android.arch.persistence.room:testing:$rootProject.roomVersion"
+    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
+    implementation "android.arch.persistence.room:rxjava2:1.0.0"
+
+    // RxJava
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroidVersion"
 
     // Paging
     implementation "android.arch.paging:runtime:1.0.0-alpha4-1"
