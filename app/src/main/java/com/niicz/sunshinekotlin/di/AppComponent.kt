@@ -2,7 +2,7 @@ package com.niicz.sunshinekotlin.di
 
 import android.app.Application
 import com.niicz.sunshinekotlin.WeatherApplication
-import com.niicz.sunshinekotlin.data.source.local.RoomModule
+import com.niicz.sunshinekotlin.data.RoomModule
 import com.niicz.sunshinekotlin.network.NetworkModule
 import com.niicz.sunshinekotlin.util.SharedPrefsModule
 import dagger.BindsInstance

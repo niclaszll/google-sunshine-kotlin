@@ -1,4 +1,4 @@
-package com.niicz.sunshinekotlin.data
+package com.niicz.sunshinekotlin.data.repository.local
 
 import android.arch.persistence.room.*
 import android.content.ContentValues
@@ -36,21 +36,22 @@ class WeatherContract {
         var coordLong: String = ""
 
         fun fromContentValues(values: ContentValues): LocationEntry {
-            val locationEntry = LocationEntry()
-            if (values.containsKey(LocationEntry.COLUMN_lID)) {
+            val locationEntry =
+                LocationEntry()
+            if (values.containsKey(COLUMN_lID)) {
                 locationEntry.lID = values.getAsLong(COLUMN_lID)
             }
-            if (values.containsKey(LocationEntry.COLUMN_LOCATION_SETTING)) {
-                locationEntry.locationSetting = values.getAsString(LocationEntry.COLUMN_LOCATION_SETTING)!!
+            if (values.containsKey(COLUMN_LOCATION_SETTING)) {
+                locationEntry.locationSetting = values.getAsString(COLUMN_LOCATION_SETTING)!!
             }
-            if (values.containsKey(LocationEntry.COLUMN_CITY_NAME)) {
-                locationEntry.city = values.getAsString(LocationEntry.COLUMN_CITY_NAME)
+            if (values.containsKey(COLUMN_CITY_NAME)) {
+                locationEntry.city = values.getAsString(COLUMN_CITY_NAME)
             }
-            if (values.containsKey(LocationEntry.COLUMN_COORD_LAT)) {
-                locationEntry.coordLat = values.getAsString(LocationEntry.COLUMN_COORD_LAT)
+            if (values.containsKey(COLUMN_COORD_LAT)) {
+                locationEntry.coordLat = values.getAsString(COLUMN_COORD_LAT)
             }
-            if (values.containsKey(LocationEntry.COLUMN_COORD_LONG)) {
-                locationEntry.coordLong = values.getAsString(LocationEntry.COLUMN_COORD_LONG)
+            if (values.containsKey(COLUMN_COORD_LONG)) {
+                locationEntry.coordLong = values.getAsString(COLUMN_COORD_LONG)
             }
             return locationEntry
         }
@@ -102,39 +103,40 @@ class WeatherContract {
         var degrees: String = ""
 
         fun fromContentValues(values: ContentValues): WeatherEntry {
-            val weatherEntry = WeatherEntry()
-            if (values.containsKey(WeatherEntry.COLUMN_wID)) {
-                weatherEntry.wID = values.getAsLong(WeatherEntry.COLUMN_wID)!!
+            val weatherEntry =
+                WeatherEntry()
+            if (values.containsKey(COLUMN_wID)) {
+                weatherEntry.wID = values.getAsLong(COLUMN_wID)!!
             }
-            if (values.containsKey(WeatherEntry.COLUMN_LOC_KEY)) {
-                weatherEntry.locationKey = values.getAsLong(WeatherEntry.COLUMN_LOC_KEY)
+            if (values.containsKey(COLUMN_LOC_KEY)) {
+                weatherEntry.locationKey = values.getAsLong(COLUMN_LOC_KEY)
             }
-            if (values.containsKey(WeatherEntry.COLUMN_DATE)) {
-                weatherEntry.date = values.getAsString(WeatherEntry.COLUMN_DATE)
+            if (values.containsKey(COLUMN_DATE)) {
+                weatherEntry.date = values.getAsString(COLUMN_DATE)
             }
-            if (values.containsKey(WeatherEntry.COLUMN_WEATHER_ID)) {
-                weatherEntry.weatherID = values.getAsString(WeatherEntry.COLUMN_WEATHER_ID)
+            if (values.containsKey(COLUMN_WEATHER_ID)) {
+                weatherEntry.weatherID = values.getAsString(COLUMN_WEATHER_ID)
             }
-            if (values.containsKey(WeatherEntry.COLUMN_SHORT_DESC)) {
-                weatherEntry.description = values.getAsString(WeatherEntry.COLUMN_SHORT_DESC)
+            if (values.containsKey(COLUMN_SHORT_DESC)) {
+                weatherEntry.description = values.getAsString(COLUMN_SHORT_DESC)
             }
-            if (values.containsKey(WeatherEntry.COLUMN_MIN_TEMP)) {
-                weatherEntry.min = values.getAsDouble(WeatherEntry.COLUMN_MIN_TEMP)
+            if (values.containsKey(COLUMN_MIN_TEMP)) {
+                weatherEntry.min = values.getAsDouble(COLUMN_MIN_TEMP)
             }
-            if (values.containsKey(WeatherEntry.COLUMN_MAX_TEMP)) {
-                weatherEntry.max = values.getAsDouble(WeatherEntry.COLUMN_MAX_TEMP)
+            if (values.containsKey(COLUMN_MAX_TEMP)) {
+                weatherEntry.max = values.getAsDouble(COLUMN_MAX_TEMP)
             }
-            if (values.containsKey(WeatherEntry.COLUMN_HUMIDITY)) {
-                weatherEntry.humidity = values.getAsDouble(WeatherEntry.COLUMN_HUMIDITY)
+            if (values.containsKey(COLUMN_HUMIDITY)) {
+                weatherEntry.humidity = values.getAsDouble(COLUMN_HUMIDITY)
             }
-            if (values.containsKey(WeatherEntry.COLUMN_PRESSURE)) {
-                weatherEntry.pressure = values.getAsDouble(WeatherEntry.COLUMN_PRESSURE)
+            if (values.containsKey(COLUMN_PRESSURE)) {
+                weatherEntry.pressure = values.getAsDouble(COLUMN_PRESSURE)
             }
-            if (values.containsKey(WeatherEntry.COLUMN_WIND_SPEED)) {
-                weatherEntry.wind = values.getAsDouble(WeatherEntry.COLUMN_WIND_SPEED)
+            if (values.containsKey(COLUMN_WIND_SPEED)) {
+                weatherEntry.wind = values.getAsDouble(COLUMN_WIND_SPEED)
             }
-            if (values.containsKey(WeatherEntry.COLUMN_DEGREES)) {
-                weatherEntry.degrees = values.getAsString(WeatherEntry.COLUMN_DEGREES)
+            if (values.containsKey(COLUMN_DEGREES)) {
+                weatherEntry.degrees = values.getAsString(COLUMN_DEGREES)
             }
             return weatherEntry
         }

@@ -9,10 +9,10 @@ import android.util.Log
 import com.niicz.sunshinekotlin.BuildConfig
 import com.niicz.sunshinekotlin.R
 import com.niicz.sunshinekotlin.WeatherApplication
-import com.niicz.sunshinekotlin.data.source.local.LocationDao
-import com.niicz.sunshinekotlin.data.WeatherContract
-import com.niicz.sunshinekotlin.data.WeatherContract.WeatherEntry
-import com.niicz.sunshinekotlin.data.source.local.WeatherDao
+import com.niicz.sunshinekotlin.data.repository.local.LocationDao
+import com.niicz.sunshinekotlin.data.repository.local.WeatherContract
+import com.niicz.sunshinekotlin.data.repository.local.WeatherContract.WeatherEntry
+import com.niicz.sunshinekotlin.data.repository.local.WeatherDao
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONException

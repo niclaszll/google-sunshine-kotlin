@@ -1,7 +1,7 @@
-package com.niicz.sunshinekotlin.data.source.remote
+package com.niicz.sunshinekotlin.data.repository.remote
 
-import com.niicz.sunshinekotlin.data.WeatherContract
-import com.niicz.sunshinekotlin.data.source.WeatherDataSource
+import com.niicz.sunshinekotlin.data.repository.local.WeatherContract
+import com.niicz.sunshinekotlin.data.repository.WeatherDataSource
 import com.niicz.sunshinekotlin.network.FetchWeatherTask
 import io.reactivex.Flowable
 import javax.inject.Inject
@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class WeatherRemoteDataSource @Inject constructor(private var fetchWeatherTask: FetchWeatherTask): WeatherDataSource{
 
-    override fun getWeatherEntries(): Flowable<List<WeatherContract.WeatherEntry>> {
+    override fun getWeatherEntries(forceRemote: Boolean): Flowable<List<WeatherContract.WeatherEntry>> {
         throw UnsupportedOperationException("Unsupported operation")
     }
 

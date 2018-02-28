@@ -1,7 +1,6 @@
-package com.niicz.sunshinekotlin.data.source.local
+package com.niicz.sunshinekotlin.data.repository.local
 
 import android.arch.persistence.room.*
-import com.niicz.sunshinekotlin.data.WeatherContract
 
 @Dao
 interface LocationDao {
