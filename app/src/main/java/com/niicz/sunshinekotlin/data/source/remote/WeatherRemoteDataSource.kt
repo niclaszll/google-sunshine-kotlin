@@ -10,14 +10,14 @@ import javax.inject.Inject
 class WeatherRemoteDataSource @Inject constructor(private var fetchWeatherTask: FetchWeatherTask): WeatherDataSource{
 
     override fun getWeatherEntries(): Flowable<List<WeatherContract.WeatherEntry>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        throw UnsupportedOperationException("Unsupported operation")
     }
 
     override fun saveWeatherEntries(weatherEntries: List<WeatherContract.WeatherEntry>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        throw UnsupportedOperationException("Unsupported operation")
     }
 
     override fun deleteAllWeatherEntries() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        throw UnsupportedOperationException("Unsupported operation")
     }
 }
