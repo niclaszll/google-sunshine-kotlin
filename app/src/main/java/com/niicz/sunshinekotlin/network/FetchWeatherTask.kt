@@ -234,8 +234,6 @@ class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, pri
 
         val url = URL(builtUri.toString())
 
-        //Log.v("Test", url.toString())
-
         try {
             val request: Request = Request.Builder().url(url).build()
             val response = client.newCall(request).execute()
