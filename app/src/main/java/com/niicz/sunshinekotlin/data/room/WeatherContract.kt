@@ -2,11 +2,9 @@ package com.niicz.sunshinekotlin.data.room
 
 import android.arch.persistence.room.*
 import android.provider.BaseColumns
-import com.google.gson.annotations.SerializedName
-import java.util.*
 import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
-import kotlin.collections.ArrayList
 
 
 class WeatherContract {
@@ -16,7 +14,7 @@ class WeatherContract {
 
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(index = true, name = COLUMN_lID)
-        var lID: Long = 0
+        var lID: Long = 1
 
         @ColumnInfo(name = COLUMN_LOCATION_SETTING)
         var locationSetting: String = ""
@@ -41,13 +39,26 @@ class WeatherContract {
     }
 
 
-    //location entry removed for simplicity
-    @Entity(tableName = WeatherEntry.TABLE_NAME)
+    @Entity(
+        tableName = WeatherEntry.TABLE_NAME
+        /*,
+        foreignKeys = [(ForeignKey(
+            entity = LocationEntry::class,
+            parentColumns = [("lID")],
+            childColumns = ["locationKey"],
+            onDelete = ForeignKey.CASCADE
+        ))]*/
+    )
     class WeatherEntry {
 
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(index = true, name = COLUMN_wID)
         var wID: Long = 0
+
+        //TODO add location
+
+        //@ColumnInfo(name = COLUMN_LOC_KEY)
+        //var locationKey: Long = 1
 
         @SerializedName("dt")
         @ColumnInfo(name = COLUMN_DATE)
@@ -71,6 +82,7 @@ class WeatherContract {
 
             const val TABLE_NAME = "weather"
             const val COLUMN_wID = BaseColumns._ID
+            const val COLUMN_LOC_KEY = "locationKey"
             const val COLUMN_DATE = "date"
             const val COLUMN_WEATHER_ID = "weatherID"
             const val COLUMN_SHORT_DESC = "description"
@@ -124,6 +136,7 @@ class WeatherContract {
     }
 
     /* convert list to string and back, because room cannot store list of objects*/
+    //TODO READ!
     object Converters {
         @TypeConverter
         fun fromString(value: String): ArrayList<String> {

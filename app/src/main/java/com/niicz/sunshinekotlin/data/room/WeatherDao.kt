@@ -23,4 +23,7 @@ interface WeatherDao {
 
     @Delete
     fun delete(weatherEntry: WeatherContract.WeatherEntry)
+
+    /*@Query("SELECT * FROM weather WHERE locationKey=:locationID")
+    fun findWeatherForLocation(locationID: Long): List<WeatherContract.WeatherEntry>*/
 }

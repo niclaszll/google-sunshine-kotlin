@@ -6,7 +6,7 @@ import io.reactivex.Flowable
 
 interface WeatherDataSource {
 
-    fun getWeatherEntries(forceRemote: Boolean): Flowable<MutableList<WeatherContract.WeatherEntry>>
+    fun getWeatherEntries(location: String, forceRemote: Boolean): Flowable<MutableList<WeatherContract.WeatherEntry>>
 
     fun saveWeatherEntries(weatherEntries: List<WeatherContract.WeatherEntry>)
 

@@ -14,11 +14,11 @@ class WeatherRemoteDataSource @Inject constructor(var weatherService: WeatherSer
     WeatherDataSource {
 
 
-    override fun getWeatherEntries(forceRemote: Boolean): Flowable<MutableList<WeatherContract.WeatherEntry>> {
+    override fun getWeatherEntries(location: String, forceRemote: Boolean): Flowable<MutableList<WeatherContract.WeatherEntry>> {
         //TODO needs to be dynamic
         Log.v("RemoteDataS", "Test")
         return weatherService.getForecast(
-            "Dresden",
+            location,
             "json",
             "metric",
             BuildConfig.OPEN_WEATHER_MAP_API_KEY

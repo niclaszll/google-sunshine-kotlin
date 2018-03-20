@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.niicz.sunshinekotlin.R
 import com.niicz.sunshinekotlin.di.ActivityScoped
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.fragment_detail.*
 import javax.inject.Inject
 
 @ActivityScoped
@@ -18,17 +19,22 @@ class DetailFragment @Inject constructor(): DaggerFragment(), DetailContract.Vie
     lateinit var presenter: DetailContract.Presenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         val rootView = inflater.inflate(R.layout.fragment_detail, container, false)
 
         setHasOptionsMenu(true)
 
+        return rootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         val intent = activity?.intent
         if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
             val forecastStr = intent.getStringExtra(Intent.EXTRA_TEXT)
-            (rootView.findViewById(R.id.detail_text) as TextView).text = forecastStr
+            detail_text.text = forecastStr
         }
-
-        return rootView
     }
 
     override fun onResume() {

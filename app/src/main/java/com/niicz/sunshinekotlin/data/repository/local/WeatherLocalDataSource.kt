@@ -13,7 +13,8 @@ class WeatherLocalDataSource @Inject constructor(private var weatherDao: Weather
         return weatherDao.insert(weatherEntry)
     }
 
-    override fun getWeatherEntries(forceRemote: Boolean): Flowable<MutableList<WeatherContract.WeatherEntry>> {
+    override fun getWeatherEntries(location: String, forceRemote: Boolean): Flowable<MutableList<WeatherContract.WeatherEntry>> {
+        //TODO change to location specific data not all!
         return weatherDao.getAll()
     }
 

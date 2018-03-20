@@ -11,11 +11,14 @@ interface ForecastContract {
 
         fun refreshWeather()
         fun showWeather(entries: MutableList<WeatherContract.WeatherEntry>)
+        fun showNoDataMessage()
+        fun clearForecast()
+        fun stopLoadingIndicator()
     }
 
     interface Presenter : BasePresenter<View> {
 
-        fun fetchWeather()
+        fun fetchWeather(location: String)
         override fun takeView(view: ForecastContract.View)
         override fun dropView()
     }

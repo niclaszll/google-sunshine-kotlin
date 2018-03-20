@@ -24,13 +24,21 @@ class ForecastPresenter @Inject constructor(
 
     private var disposeBag: CompositeDisposable = CompositeDisposable()
 
-    override fun fetchWeather() {
-        val disposable = repository.getWeatherEntries(true)
+
+    /**
+     * Fetches Weather from local/remote DB
+     */
+    override fun fetchWeather(location: String) {
+
+        forecastView?.clearForecast()
+
+        val disposable = repository.getWeatherEntries(location, true)
             .subscribeOn(ioScheduler)
             .observeOn(uiScheduler)
             .subscribe(
                 { entries -> handleReturnedData(entries) },
-                { error -> handleError(error) }
+                { error -> handleError(error) },
+                { forecastView?.stopLoadingIndicator() }
             )
         disposeBag.add(disposable)
     }
@@ -40,6 +48,7 @@ class ForecastPresenter @Inject constructor(
     }
 
     override fun dropView() {
+        disposeBag.clear()
         forecastView = null
     }
 
@@ -47,11 +56,11 @@ class ForecastPresenter @Inject constructor(
      * Updates view after loading data is completed successfully.
      */
     private fun handleReturnedData(list: MutableList<WeatherContract.WeatherEntry>) {
-
+        forecastView?.stopLoadingIndicator()
         if (!list.isEmpty()) {
             forecastView?.showWeather(list)
         } else {
-            Log.v("Presenter", "no data available")
+            forecastView?.showNoDataMessage()
         }
     }
 
@@ -59,6 +68,7 @@ class ForecastPresenter @Inject constructor(
      * Updates view if there is an error after loading data from repository.
      */
     private fun handleError(error: Throwable) {
+        forecastView?.stopLoadingIndicator()
         Log.e("Presenter", error.localizedMessage)
     }
 

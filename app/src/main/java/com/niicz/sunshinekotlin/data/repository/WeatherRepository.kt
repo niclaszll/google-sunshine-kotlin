@@ -1,6 +1,5 @@
 package com.niicz.sunshinekotlin.data.repository
 
-import android.util.Log
 import com.niicz.sunshinekotlin.data.room.WeatherContract
 import io.reactivex.Flowable
 import javax.inject.Inject
@@ -11,16 +10,17 @@ class WeatherRepository @Inject constructor(@Local var localDataSource: WeatherD
 
     private var caches: MutableList<WeatherContract.WeatherEntry> = mutableListOf()
 
-    override fun getWeatherEntries(forceRemote: Boolean): Flowable<MutableList<WeatherContract.WeatherEntry>> {
+    override fun getWeatherEntries(location: String, forceRemote: Boolean): Flowable<MutableList<WeatherContract.WeatherEntry>> {
+
         if (forceRemote) {
-            return refreshData()
+            return refreshData(location)
         } else {
             if (caches.isNotEmpty()) {
                 // if cache is available, return it immediately
                 return Flowable.just(caches)
             } else {
                 // else return data from local storage
-                return localDataSource.getWeatherEntries(false)
+                return localDataSource.getWeatherEntries(location, false)
                     .take(1)
                     .flatMap(({ Flowable.fromIterable(it) }))
                     .doOnNext { question -> caches.add(question) }
@@ -28,7 +28,7 @@ class WeatherRepository @Inject constructor(@Local var localDataSource: WeatherD
                     .toFlowable()
                     .filter({ list -> !list.isEmpty() })
                     .switchIfEmpty(
-                        refreshData()
+                        refreshData(location)
                     ) // If local data is empty, fetch from remote source instead.
             }
         }
@@ -40,13 +40,10 @@ class WeatherRepository @Inject constructor(@Local var localDataSource: WeatherD
      *
      * @return the Flowable of newly fetched data.
      */
-    private fun refreshData(): Flowable<MutableList<WeatherContract.WeatherEntry>> {
-        Log.v("Repo", "Test")
+    private fun refreshData(location: String): Flowable<MutableList<WeatherContract.WeatherEntry>> {
 
-        //TODO ab hier irgendwo error?!
-        return remoteDataSource.getWeatherEntries(true).doOnNext({
+        return remoteDataSource.getWeatherEntries(location,true).doOnNext({
 
-            Log.v("Repo", it[0].date)
             // Clear cache
             caches.clear()
             // Clear data in local storage
