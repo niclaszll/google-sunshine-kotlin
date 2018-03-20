@@ -123,6 +123,7 @@ class WeatherContract {
         var pressure: Double = 0.0
     }
 
+    /* convert list to string and back, because room cannot store list of objects*/
     object Converters {
         @TypeConverter
         fun fromString(value: String): ArrayList<String> {
