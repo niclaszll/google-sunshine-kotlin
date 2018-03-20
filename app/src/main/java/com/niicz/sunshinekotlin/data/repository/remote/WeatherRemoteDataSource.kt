@@ -1,6 +1,5 @@
 package com.niicz.sunshinekotlin.data.repository.remote
 
-import android.util.Log
 import com.niicz.sunshinekotlin.BuildConfig
 import com.niicz.sunshinekotlin.data.api.WeatherForecastResponse
 import com.niicz.sunshinekotlin.data.api.WeatherService
@@ -15,8 +14,6 @@ class WeatherRemoteDataSource @Inject constructor(var weatherService: WeatherSer
 
 
     override fun getWeatherEntries(location: String, forceRemote: Boolean): Flowable<MutableList<WeatherContract.WeatherEntry>> {
-        //TODO needs to be dynamic
-        Log.v("RemoteDataS", "Test")
         return weatherService.getForecast(
             location,
             "json",

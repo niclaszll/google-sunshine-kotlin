@@ -52,6 +52,7 @@ class ForecastFragment @Inject constructor() : DaggerFragment(), ForecastContrac
 
         //onclicklistener using rxjava
         //https://stackoverflow.com/questions/24885223/why-doesnt-recyclerview-have-onitemclicklistener
+        //TODO better pass whole object instead of description etc
         forecastAdapter.getPositionClicks().subscribe(
             { entry ->
                 startActivity(
