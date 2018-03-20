@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 interface WeatherService {
 
-    @GET("/forecast")
+    @GET("forecast")
     fun getForecast(@Query("q") location: String,
                     @Query("mode") format: String,
                     @Query("units") units: String,

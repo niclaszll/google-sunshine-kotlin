@@ -7,7 +7,7 @@ import io.reactivex.Flowable
 interface WeatherDao {
 
     @Query("SELECT * FROM weather")
-    fun getAll(): Flowable<List<WeatherContract.WeatherEntry>>
+    fun getAll(): Flowable<MutableList<WeatherContract.WeatherEntry>>
 
     @Insert
     fun insertAll(weatherEntries: List<WeatherContract.WeatherEntry>)
@@ -23,7 +23,4 @@ interface WeatherDao {
 
     @Delete
     fun delete(weatherEntry: WeatherContract.WeatherEntry)
-
-    @Query("SELECT * FROM weather WHERE locationKey=:locationID")
-    fun findWeatherForLocation(locationID: Long): List<WeatherContract.WeatherEntry>
 }

@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import com.niicz.sunshinekotlin.R
+import com.niicz.sunshinekotlin.data.room.WeatherContract
 import com.niicz.sunshinekotlin.detail.DetailActivity
 import com.niicz.sunshinekotlin.di.ActivityScoped
 import com.niicz.sunshinekotlin.util.ItemClickSupport
@@ -24,7 +25,7 @@ class ForecastFragment @Inject constructor(): DaggerFragment(), ForecastContract
 
     private lateinit var linearLayoutManager: LinearLayoutManager
     private var forecastAdapter: ForecastAdapter? = null
-    private lateinit var forecastData: MutableList<String>
+    private lateinit var forecastData: MutableList<WeatherContract.WeatherEntry>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,14 +72,12 @@ class ForecastFragment @Inject constructor(): DaggerFragment(), ForecastContract
         return rootView
     }
 
-    override fun refreshWeather() {
-        presenter.fetchWeather()
+    override fun showWeather(entries: MutableList<WeatherContract.WeatherEntry>) {
+        forecastAdapter?.replaceData(entries)
     }
 
-    override fun addToAdapter(dayForecastStrs: MutableList<String>) {
-        forecastData.clear()
-        forecastData.addAll(dayForecastStrs)
-        forecastAdapter!!.notifyDataSetChanged()
+    override fun refreshWeather() {
+        presenter.fetchWeather()
     }
 
     override fun onResume() {

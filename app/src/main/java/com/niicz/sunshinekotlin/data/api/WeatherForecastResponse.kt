@@ -1,9 +1,11 @@
 package com.niicz.sunshinekotlin.data.api
 
 import com.google.gson.annotations.SerializedName
+import com.niicz.sunshinekotlin.data.room.WeatherContract
 
+class WeatherForecastResponse {
 
-data class WeatherForecastResponse(
-    @SerializedName("test") val test: String,
-    @SerializedName("test2") val test2: String
-)
+    @SerializedName("list")
+    var weatherEntries: MutableList<WeatherContract.WeatherEntry>? = null
+
+}

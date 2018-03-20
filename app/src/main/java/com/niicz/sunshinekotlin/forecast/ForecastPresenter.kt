@@ -1,29 +1,38 @@
 package com.niicz.sunshinekotlin.forecast
 
+import android.util.Log
+import com.niicz.sunshinekotlin.data.repository.WeatherRepository
+import com.niicz.sunshinekotlin.data.room.WeatherContract
 import com.niicz.sunshinekotlin.di.ActivityScoped
-import com.niicz.sunshinekotlin.network.FetchWeatherTask
+import com.niicz.sunshinekotlin.util.schedulers.RunOn
+import com.niicz.sunshinekotlin.util.schedulers.SchedulerType
+import io.reactivex.Scheduler
+import io.reactivex.disposables.CompositeDisposable
 import javax.annotation.Nullable
 import javax.inject.Inject
-import javax.inject.Provider
+
 
 @ActivityScoped
-class ForecastPresenter @Inject constructor() : ForecastContract.Presenter, FetchWeatherTask.AsyncResponse {
-
-    @Inject
-    lateinit var fetchWeatherTaskProvider: Provider<FetchWeatherTask>
+class ForecastPresenter @Inject constructor(
+    var repository: WeatherRepository,
+    @RunOn(SchedulerType.IO) private var ioScheduler: Scheduler,
+    @RunOn(SchedulerType.UI) private var uiScheduler: Scheduler
+) : ForecastContract.Presenter {
 
     @Nullable
     private var forecastView: ForecastContract.View? = null
 
-    override fun fetchWeather() {
-        //AsyncTask response
-        val fetchWeatherTask = fetchWeatherTaskProvider.get()
-        fetchWeatherTask.delegate = this
-        fetchWeatherTask.execute()
-    }
+    private var disposeBag: CompositeDisposable = CompositeDisposable()
 
-    override fun addToAdapter(result: MutableList<String>) {
-        forecastView?.addToAdapter(result)
+    override fun fetchWeather() {
+        val disposable = repository.getWeatherEntries(true)
+            .subscribeOn(ioScheduler)
+            .observeOn(uiScheduler)
+            .subscribe(
+                { entries -> handleReturnedData(entries) },
+                { error -> handleError(error) }
+            )
+        disposeBag.add(disposable)
     }
 
     override fun takeView(view: ForecastContract.View) {
@@ -34,9 +43,24 @@ class ForecastPresenter @Inject constructor() : ForecastContract.Presenter, Fetc
         forecastView = null
     }
 
-    //AsyncResponse call
-    override fun processFinish(output: MutableList<String>) {
-        addToAdapter(output)
+    /**
+     * Updates view after loading data is completed successfully.
+     */
+    private fun handleReturnedData(list: MutableList<WeatherContract.WeatherEntry>) {
+
+        if (!list.isEmpty()) {
+            forecastView?.showWeather(list)
+        } else {
+            Log.v("Presenter", "no data available")
+        }
     }
+
+    /**
+     * Updates view if there is an error after loading data from repository.
+     */
+    private fun handleError(error: Throwable) {
+        Log.e("Presenter", error.localizedMessage)
+    }
+
 }
 

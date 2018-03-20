@@ -4,7 +4,9 @@ import android.app.Application
 import com.niicz.sunshinekotlin.WeatherApplication
 import com.niicz.sunshinekotlin.data.room.RoomModule
 import com.niicz.sunshinekotlin.data.NetworkModule
+import com.niicz.sunshinekotlin.data.WeatherRepositoryModule
 import com.niicz.sunshinekotlin.util.SharedPrefsModule
+import com.niicz.sunshinekotlin.util.schedulers.SchedulerModel
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -30,7 +32,9 @@ import javax.inject.Singleton
         (AndroidSupportInjectionModule::class),
         (NetworkModule::class),
         (SharedPrefsModule::class),
-        (RoomModule::class)]
+        (RoomModule::class),
+        (SchedulerModel::class),
+        (WeatherRepositoryModule::class)]
 )
 interface AppComponent : AndroidInjector<WeatherApplication> {
 

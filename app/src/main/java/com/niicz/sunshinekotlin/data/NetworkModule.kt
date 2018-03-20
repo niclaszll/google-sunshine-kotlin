@@ -1,5 +1,6 @@
 package com.niicz.sunshinekotlin.data
 
+import com.niicz.sunshinekotlin.data.api.WeatherService
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -57,5 +58,11 @@ class NetworkModule {
             .addCallAdapterFactory(callAdapterFactory)
             .client(client)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherService(retrofit: Retrofit): WeatherService {
+        return retrofit.create<WeatherService>(WeatherService::class.java)
     }
 }

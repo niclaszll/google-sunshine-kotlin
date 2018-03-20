@@ -1,20 +1,15 @@
 package com.niicz.sunshinekotlin.data.room
 
 import android.arch.persistence.room.*
-import android.content.ContentValues
 import android.provider.BaseColumns
-import android.text.format.Time
+import com.google.gson.annotations.SerializedName
+import java.util.*
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import kotlin.collections.ArrayList
 
 
 class WeatherContract {
-
-    fun normalizeDate(startDate: Long): Long {
-        // normalize the start date to the beginning of the (UTC) day
-        val time = Time()
-        time.set(startDate)
-        val julianDay = Time.getJulianDay(startDate, time.gmtoff)
-        return time.setJulianDay(julianDay)
-    }
 
     @Entity(tableName = LocationEntry.TABLE_NAME)
     class LocationEntry {
@@ -35,27 +30,6 @@ class WeatherContract {
         @ColumnInfo(name = COLUMN_COORD_LONG)
         var coordLong: String = ""
 
-        fun fromContentValues(values: ContentValues): LocationEntry {
-            val locationEntry =
-                LocationEntry()
-            if (values.containsKey(COLUMN_lID)) {
-                locationEntry.lID = values.getAsLong(COLUMN_lID)
-            }
-            if (values.containsKey(COLUMN_LOCATION_SETTING)) {
-                locationEntry.locationSetting = values.getAsString(COLUMN_LOCATION_SETTING)!!
-            }
-            if (values.containsKey(COLUMN_CITY_NAME)) {
-                locationEntry.city = values.getAsString(COLUMN_CITY_NAME)
-            }
-            if (values.containsKey(COLUMN_COORD_LAT)) {
-                locationEntry.coordLat = values.getAsString(COLUMN_COORD_LAT)
-            }
-            if (values.containsKey(COLUMN_COORD_LONG)) {
-                locationEntry.coordLong = values.getAsString(COLUMN_COORD_LONG)
-            }
-            return locationEntry
-        }
-
         companion object {
             const val TABLE_NAME = "location"
             const val COLUMN_lID = "lID"
@@ -67,85 +41,36 @@ class WeatherContract {
     }
 
 
-    @Entity(
-        tableName = WeatherEntry.TABLE_NAME,
-        foreignKeys = [(ForeignKey(
-            entity = LocationEntry::class,
-            parentColumns = [("lID")],
-            childColumns = ["locationKey"],
-            onDelete = ForeignKey.CASCADE
-        ))]
-    )
-    class WeatherEntry{
+    //location entry removed for simplicity
+    @Entity(tableName = WeatherEntry.TABLE_NAME)
+    class WeatherEntry {
 
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(index = true, name = COLUMN_wID)
         var wID: Long = 0
-        @ColumnInfo(name = COLUMN_LOC_KEY)
-        var locationKey: Long = 0
+
+        @SerializedName("dt")
         @ColumnInfo(name = COLUMN_DATE)
         var date: String = ""
-        @ColumnInfo(name = COLUMN_WEATHER_ID)
-        var weatherID: String = ""
-        @ColumnInfo(name = COLUMN_SHORT_DESC)
-        var description: String = ""
-        @ColumnInfo(name = COLUMN_MIN_TEMP)
-        var min: Double = 0.0
-        @ColumnInfo(name = COLUMN_MAX_TEMP)
-        var max: Double = 0.0
-        @ColumnInfo(name = COLUMN_HUMIDITY)
-        var humidity: Double = 0.0
-        @ColumnInfo(name = COLUMN_PRESSURE)
-        var pressure: Double = 0.0
-        @ColumnInfo(name = COLUMN_WIND_SPEED)
-        var wind: Double = 0.0
-        @ColumnInfo(name = COLUMN_DEGREES)
-        var degrees: String = ""
 
-        fun fromContentValues(values: ContentValues): WeatherEntry {
-            val weatherEntry =
-                WeatherEntry()
-            if (values.containsKey(COLUMN_wID)) {
-                weatherEntry.wID = values.getAsLong(COLUMN_wID)!!
-            }
-            if (values.containsKey(COLUMN_LOC_KEY)) {
-                weatherEntry.locationKey = values.getAsLong(COLUMN_LOC_KEY)
-            }
-            if (values.containsKey(COLUMN_DATE)) {
-                weatherEntry.date = values.getAsString(COLUMN_DATE)
-            }
-            if (values.containsKey(COLUMN_WEATHER_ID)) {
-                weatherEntry.weatherID = values.getAsString(COLUMN_WEATHER_ID)
-            }
-            if (values.containsKey(COLUMN_SHORT_DESC)) {
-                weatherEntry.description = values.getAsString(COLUMN_SHORT_DESC)
-            }
-            if (values.containsKey(COLUMN_MIN_TEMP)) {
-                weatherEntry.min = values.getAsDouble(COLUMN_MIN_TEMP)
-            }
-            if (values.containsKey(COLUMN_MAX_TEMP)) {
-                weatherEntry.max = values.getAsDouble(COLUMN_MAX_TEMP)
-            }
-            if (values.containsKey(COLUMN_HUMIDITY)) {
-                weatherEntry.humidity = values.getAsDouble(COLUMN_HUMIDITY)
-            }
-            if (values.containsKey(COLUMN_PRESSURE)) {
-                weatherEntry.pressure = values.getAsDouble(COLUMN_PRESSURE)
-            }
-            if (values.containsKey(COLUMN_WIND_SPEED)) {
-                weatherEntry.wind = values.getAsDouble(COLUMN_WIND_SPEED)
-            }
-            if (values.containsKey(COLUMN_DEGREES)) {
-                weatherEntry.degrees = values.getAsString(COLUMN_DEGREES)
-            }
-            return weatherEntry
-        }
+        @SerializedName("main")
+        @Embedded(prefix = "main_")
+        var main: Main? = null
+
+        @SerializedName("weather")
+        @TypeConverters(Converters::class)
+        @Embedded(prefix = "weather_")
+        var weather: ArrayList<Weather>? = null
+
+        @SerializedName("wind")
+        @Embedded(prefix = "wind_")
+        var wind: Wind? = null
+
 
         companion object {
 
             const val TABLE_NAME = "weather"
             const val COLUMN_wID = BaseColumns._ID
-            const val COLUMN_LOC_KEY = "locationKey"
             const val COLUMN_DATE = "date"
             const val COLUMN_WEATHER_ID = "weatherID"
             const val COLUMN_SHORT_DESC = "description"
@@ -158,5 +83,59 @@ class WeatherContract {
 
         }
 
+    }
+
+    class Wind {
+        @SerializedName("speed")
+        @ColumnInfo(name = WeatherEntry.COLUMN_WIND_SPEED)
+        var wind: Double = 0.0
+
+        @SerializedName("deg")
+        @ColumnInfo(name = WeatherEntry.COLUMN_DEGREES)
+        var degrees: String = ""
+    }
+
+    class Weather {
+        @SerializedName("id")
+        @ColumnInfo(name = WeatherEntry.COLUMN_WEATHER_ID)
+        var weatherID: String = ""
+
+        @SerializedName("description")
+        @ColumnInfo(name = WeatherEntry.COLUMN_SHORT_DESC)
+        var description: String = ""
+    }
+
+    class Main {
+        @SerializedName("temp_min")
+        @ColumnInfo(name = WeatherEntry.COLUMN_MIN_TEMP)
+        var min: Double = 0.0
+
+        @SerializedName("temp_max")
+        @ColumnInfo(name = WeatherEntry.COLUMN_MAX_TEMP)
+        var max: Double = 0.0
+
+        @SerializedName("humidity")
+        @ColumnInfo(name = WeatherEntry.COLUMN_HUMIDITY)
+        var humidity: Double = 0.0
+
+        @SerializedName("pressure")
+        @ColumnInfo(name = WeatherEntry.COLUMN_PRESSURE)
+        var pressure: Double = 0.0
+    }
+
+    object Converters {
+        @TypeConverter
+        fun fromString(value: String): ArrayList<String> {
+            val listType = object : TypeToken<ArrayList<String>>() {
+
+            }.type
+            return Gson().fromJson(value, listType)
+        }
+
+        @TypeConverter
+        fun fromArrayList(list: ArrayList<String>): String {
+            val gson = Gson()
+            return gson.toJson(list)
+        }
     }
 }

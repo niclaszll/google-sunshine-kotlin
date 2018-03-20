@@ -2,6 +2,7 @@ package com.niicz.sunshinekotlin.forecast
 
 import com.niicz.sunshinekotlin.BasePresenter
 import com.niicz.sunshinekotlin.BaseView
+import com.niicz.sunshinekotlin.data.room.WeatherContract
 
 
 interface ForecastContract {
@@ -9,13 +10,12 @@ interface ForecastContract {
     interface View : BaseView<Presenter> {
 
         fun refreshWeather()
-        fun addToAdapter(dayForecastStrs: MutableList<String>)
+        fun showWeather(entries: MutableList<WeatherContract.WeatherEntry>)
     }
 
     interface Presenter : BasePresenter<View> {
 
         fun fetchWeather()
-        fun addToAdapter(result: MutableList<String>)
         override fun takeView(view: ForecastContract.View)
         override fun dropView()
     }

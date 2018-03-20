@@ -9,6 +9,8 @@ import android.util.Log
 import com.niicz.sunshinekotlin.BuildConfig
 import com.niicz.sunshinekotlin.R
 import com.niicz.sunshinekotlin.WeatherApplication
+import com.niicz.sunshinekotlin.data.repository.WeatherRepository
+import com.niicz.sunshinekotlin.data.repository.remote.WeatherRemoteDataSource
 import com.niicz.sunshinekotlin.data.room.LocationDao
 import com.niicz.sunshinekotlin.data.room.WeatherContract
 import com.niicz.sunshinekotlin.data.room.WeatherContract.WeatherEntry
@@ -24,8 +26,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-
-class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, private val sharedPreferences: SharedPreferences, private val locationDao: LocationDao, private val weatherDao: WeatherDao) :
+/*
+class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, private val sharedPreferences: SharedPreferences, private val locationDao: LocationDao, private val weatherDao: WeatherDao, private val repo: WeatherRepository) :
     AsyncTask<String, Void, MutableList<String>>() {
 
     private val logTag = FetchWeatherTask::class.java.simpleName
@@ -59,7 +61,7 @@ class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, pri
             newHigh = (high * 1.8) + 32
             newLow = (low * 1.8) + 32
         } else if (unitType != "metric") {
-            Log.d(logTag, "Unit type not found: " + unitType)
+            Log.d(logTag, "Unit type not found: $unitType")
         }
 
         val roundedHigh = Math.round(newHigh)
@@ -264,3 +266,4 @@ class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, pri
     }
 
 }
+*/

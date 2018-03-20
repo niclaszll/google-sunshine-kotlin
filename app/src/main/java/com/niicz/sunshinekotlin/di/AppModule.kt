@@ -2,11 +2,8 @@ package com.niicz.sunshinekotlin.di
 
 import android.app.Application
 import android.content.Context
-import android.os.AsyncTask
-import com.niicz.sunshinekotlin.network.FetchWeatherTask
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 
 
 /**
