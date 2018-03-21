@@ -64,6 +64,25 @@ class ForecastFragment @Inject constructor() : DaggerFragment(), ForecastContrac
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        presenter.takeView(this)
+    }
+
+    override fun onDestroy() {
+        presenter.dropView()
+        super.onDestroy()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        refreshWeather()
+    }
+
+    override fun clearForecast() {
+        forecastAdapter.clearData()
+    }
+
     override fun showWeather(entries: MutableList<WeatherContract.WeatherEntry>) {
         forecastAdapter.replaceData(entries)
     }
@@ -81,26 +100,6 @@ class ForecastFragment @Inject constructor() : DaggerFragment(), ForecastContrac
         if (refreshLayoutForecast.isRefreshing) {
             refreshLayoutForecast.isRefreshing = false
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.takeView(this)
-    }
-
-    override fun onDestroy() {
-        presenter.dropView()
-        super.onDestroy()
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-        refreshWeather()
-    }
-
-    override fun clearForecast() {
-        forecastAdapter.clearData()
     }
 
     override fun showNoDataMessage() {

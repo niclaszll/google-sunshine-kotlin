@@ -2,12 +2,17 @@
   <dictionary name="Niclas">
     <words>
       <w>dayobject</w>
+      <w>doesnt</w>
       <w>flowable</w>
       <w>gson</w>
       <w>hier</w>
       <w>irgendwo</w>
       <w>okhttp</w>
+      <w>onclicklistener</w>
+      <w>onitemclicklistener</w>
       <w>overthink</w>
+      <w>recyclerview</w>
+      <w>rxjava</w>
       <w>winddirection</w>
     </words>
   </dictionary>

@@ -14,7 +14,7 @@ class WeatherContract {
 
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(index = true, name = COLUMN_lID)
-        var lID: Long = 1
+        var lID: Long? = null //foreign key not null is not working
 
         @ColumnInfo(name = COLUMN_LOCATION_SETTING)
         var locationSetting: String = ""
@@ -40,14 +40,13 @@ class WeatherContract {
 
 
     @Entity(
-        tableName = WeatherEntry.TABLE_NAME
-        /*,
+        tableName = WeatherEntry.TABLE_NAME,
         foreignKeys = [(ForeignKey(
             entity = LocationEntry::class,
             parentColumns = [("lID")],
             childColumns = ["locationKey"],
             onDelete = ForeignKey.CASCADE
-        ))]*/
+        ))]
     )
     class WeatherEntry {
 
@@ -55,10 +54,8 @@ class WeatherContract {
         @ColumnInfo(index = true, name = COLUMN_wID)
         var wID: Long = 0
 
-        //TODO add location
-
-        //@ColumnInfo(name = COLUMN_LOC_KEY)
-        //var locationKey: Long = 1
+        @ColumnInfo(name = COLUMN_LOC_KEY)
+        var locationKey: Long? = null
 
         @SerializedName("dt")
         @ColumnInfo(name = COLUMN_DATE)
@@ -92,9 +89,7 @@ class WeatherContract {
             const val COLUMN_PRESSURE = "pressure"
             const val COLUMN_WIND_SPEED = "wind"
             const val COLUMN_DEGREES = "degrees"
-
         }
-
     }
 
     class Wind {
