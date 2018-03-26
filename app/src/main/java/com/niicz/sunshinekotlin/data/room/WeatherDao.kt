@@ -1,29 +1,30 @@
 package com.niicz.sunshinekotlin.data.room
 
 import android.arch.persistence.room.*
+import com.niicz.sunshinekotlin.data.room.WeatherEntry.Companion.TABLE_NAME
 import io.reactivex.Flowable
 
 @Dao
 interface WeatherDao {
 
-    @Query("SELECT * FROM weather")
-    fun getAll(): Flowable<MutableList<WeatherContract.WeatherEntry>>
+    @Query("SELECT * FROM $TABLE_NAME")
+    fun getAll(): Flowable<MutableList<WeatherEntry>>
 
-    @Insert
-    fun insertAll(weatherEntries: List<WeatherContract.WeatherEntry>)
+    @Query("SELECT * FROM $TABLE_NAME WHERE id == :id")
+    fun getWeatherById(id: Long): Flowable<WeatherEntry>
 
-    @Insert
-    fun insert(weatherEntry: WeatherContract.WeatherEntry)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(weatherEntries: List<WeatherEntry>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(weatherEntry: WeatherEntry): Long
 
     @Update
-    fun update(weatherEntry: WeatherContract.WeatherEntry)
+    fun update(weatherEntry: WeatherEntry)
 
-    @Query("DELETE FROM weather")
+    @Query("DELETE FROM $TABLE_NAME")
     fun clearWeatherTable()
 
     @Delete
-    fun delete(weatherEntry: WeatherContract.WeatherEntry)
-
-    /*@Query("SELECT * FROM weather WHERE locationKey=:locationID")
-    fun findWeatherForLocation(locationID: Long): List<WeatherContract.WeatherEntry>*/
+    fun delete(weatherEntry: WeatherEntry)
 }

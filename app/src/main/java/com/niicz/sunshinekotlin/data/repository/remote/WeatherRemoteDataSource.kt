@@ -4,16 +4,16 @@ import com.niicz.sunshinekotlin.BuildConfig
 import com.niicz.sunshinekotlin.data.api.WeatherForecastResponse
 import com.niicz.sunshinekotlin.data.api.WeatherService
 import com.niicz.sunshinekotlin.data.repository.WeatherDataSource
-import com.niicz.sunshinekotlin.data.room.WeatherContract
+import com.niicz.sunshinekotlin.data.room.LocationEntry
+import com.niicz.sunshinekotlin.data.room.WeatherEntry
 import io.reactivex.Flowable
 import javax.inject.Inject
 
 
-class WeatherRemoteDataSource @Inject constructor(var weatherService: WeatherService) :
+class WeatherRemoteDataSource @Inject constructor(private var weatherService: WeatherService) :
     WeatherDataSource {
 
-
-    override fun getWeatherEntries(location: String, forceRemote: Boolean): Flowable<MutableList<WeatherContract.WeatherEntry>> {
+    override fun getWeatherEntries(location: String, forceRemote: Boolean): Flowable<MutableList<WeatherEntry>> {
         return weatherService.getForecast(
             location,
             "json",
@@ -22,11 +22,24 @@ class WeatherRemoteDataSource @Inject constructor(var weatherService: WeatherSer
         ).map(WeatherForecastResponse::weatherEntries)
     }
 
-    override fun saveWeatherEntries(weatherEntries: List<WeatherContract.WeatherEntry>) {
+    override fun getLocationEntry(location: String, forceRemote: Boolean): Flowable<LocationEntry> {
+        return weatherService.getForecast(
+            location,
+            "json",
+            "metric",
+            BuildConfig.OPEN_WEATHER_MAP_API_KEY
+        ).map(WeatherForecastResponse::locationEntry)
+    }
+
+    override fun getWeatherEntryById(wID: Long): Flowable<WeatherEntry> {
         throw UnsupportedOperationException("Unsupported operation")
     }
 
-    override fun insertWeatherEntry(weatherEntry: WeatherContract.WeatherEntry) {
+    override fun saveWeatherEntries(weatherEntries: List<WeatherEntry>) {
+        throw UnsupportedOperationException("Unsupported operation")
+    }
+
+    override fun insertWeatherEntry(weatherEntry: WeatherEntry): Long {
         throw UnsupportedOperationException("Unsupported operation")
     }
 

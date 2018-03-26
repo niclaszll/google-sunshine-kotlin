@@ -15,7 +15,7 @@ class RoomModule {
         return Room.databaseBuilder(
             context,
             WeatherDatabase::class.java,
-            "weather"
+            WeatherEntry.TABLE_NAME
         ).allowMainThreadQueries().build()
     }
 

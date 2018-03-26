@@ -1,6 +1,7 @@
 package com.niicz.sunshinekotlin.data.repository
 
-import com.niicz.sunshinekotlin.data.room.WeatherContract
+import com.niicz.sunshinekotlin.data.room.LocationEntry
+import com.niicz.sunshinekotlin.data.room.WeatherEntry
 import io.reactivex.Flowable
 import javax.inject.Inject
 
@@ -8,29 +9,19 @@ import javax.inject.Inject
 class WeatherRepository @Inject constructor(@Local var localDataSource: WeatherDataSource, @Remote var remoteDataSource: WeatherDataSource) :
     WeatherDataSource {
 
-    private var caches: MutableList<WeatherContract.WeatherEntry> = mutableListOf()
+    override fun getWeatherEntries(location: String, forceRemote: Boolean): Flowable<MutableList<WeatherEntry>> {
 
-    override fun getWeatherEntries(location: String, forceRemote: Boolean): Flowable<MutableList<WeatherContract.WeatherEntry>> {
-
-        if (forceRemote) {
-            return refreshData(location)
+        return if (forceRemote) {
+            refreshData(location)
         } else {
-            if (caches.isNotEmpty()) {
-                // if cache is available, return it immediately
-                return Flowable.just(caches)
-            } else {
-                // else return data from local storage
-                return localDataSource.getWeatherEntries(location, false)
-                    .take(1)
-                    .flatMap(({ Flowable.fromIterable(it) }))
-                    .doOnNext { question -> caches.add(question) }
-                    .toList()
-                    .toFlowable()
-                    .filter({ list -> !list.isEmpty() })
-                    .switchIfEmpty(
-                        refreshData(location)
-                    ) // If local data is empty, fetch from remote source instead.
-            }
+            // else return data from local storage
+            localDataSource.getWeatherEntries(location, false)
+                .take(1)
+                .flatMap(({ Flowable.fromIterable(it) }))
+                .toList()
+                .toFlowable()
+                .filter({ list -> !list.isEmpty() })
+                .switchIfEmpty(refreshData(location)) // If local data is empty, fetch from remote source instead.
         }
     }
 
@@ -40,21 +31,32 @@ class WeatherRepository @Inject constructor(@Local var localDataSource: WeatherD
      *
      * @return the Flowable of newly fetched data.
      */
-    private fun refreshData(location: String): Flowable<MutableList<WeatherContract.WeatherEntry>> {
+    private fun refreshData(location: String): Flowable<MutableList<WeatherEntry>> {
 
-        return remoteDataSource.getWeatherEntries(location,true).doOnNext({
+        return remoteDataSource.getWeatherEntries(location, true).doOnNext({
 
-            // Clear cache
-            caches.clear()
             // Clear data in local storage
             localDataSource.deleteAllWeatherEntries()
-        }).flatMap(({ Flowable.fromIterable(it) })).doOnNext({ question ->
-            caches.add(question)
-            localDataSource.insertWeatherEntry(question)
+        }).flatMap(({ Flowable.fromIterable(it) })).doOnNext({ entry ->
+            val entryID = localDataSource.insertWeatherEntry(entry)
+            entry.id = entryID
         }).toList().toFlowable()
     }
 
-    override fun saveWeatherEntries(weatherEntries: List<WeatherContract.WeatherEntry>) {
+    override fun getLocationEntry(location: String, forceRemote: Boolean): Flowable<LocationEntry> {
+        return if (forceRemote) {
+            remoteDataSource.getLocationEntry(location, true)
+        }
+        else {
+            localDataSource.getLocationEntry(location, false)
+        }
+    }
+
+    override fun getWeatherEntryById(wID: Long): Flowable<WeatherEntry> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun saveWeatherEntries(weatherEntries: List<WeatherEntry>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -62,7 +64,7 @@ class WeatherRepository @Inject constructor(@Local var localDataSource: WeatherD
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun insertWeatherEntry(weatherEntry: WeatherContract.WeatherEntry) {
+    override fun insertWeatherEntry(weatherEntry: WeatherEntry): Long {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

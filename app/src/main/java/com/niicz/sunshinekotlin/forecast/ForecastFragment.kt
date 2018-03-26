@@ -4,12 +4,13 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.niicz.sunshinekotlin.R
-import com.niicz.sunshinekotlin.data.room.WeatherContract
+import com.niicz.sunshinekotlin.data.room.WeatherEntry
 import com.niicz.sunshinekotlin.detail.DetailActivity
 import com.niicz.sunshinekotlin.di.ActivityScoped
 import dagger.android.support.DaggerFragment
@@ -52,13 +53,12 @@ class ForecastFragment @Inject constructor() : DaggerFragment(), ForecastContrac
 
         //onclicklistener using rxjava
         //https://stackoverflow.com/questions/24885223/why-doesnt-recyclerview-have-onitemclicklistener
-        //TODO better pass whole object instead of description etc
         forecastAdapter.getPositionClicks().subscribe(
             { entry ->
                 startActivity(
                     Intent(activity, DetailActivity::class.java)
-                        .putExtra(Intent.EXTRA_TEXT, entry.weather!![0].description)
-                )
+                        .putExtra(Intent.EXTRA_TEXT, entry.id)
+                ).also { Log.v("Test", entry.id.toString()) }
             }
         )
 
@@ -83,7 +83,7 @@ class ForecastFragment @Inject constructor() : DaggerFragment(), ForecastContrac
         forecastAdapter.clearData()
     }
 
-    override fun showWeather(entries: MutableList<WeatherContract.WeatherEntry>) {
+    override fun showWeather(entries: MutableList<WeatherEntry>) {
         forecastAdapter.replaceData(entries)
     }
 

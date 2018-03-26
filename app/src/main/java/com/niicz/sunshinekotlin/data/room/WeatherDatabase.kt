@@ -5,7 +5,7 @@ import android.arch.persistence.room.RoomDatabase
 
 
 @Database(
-    entities = [(WeatherContract.WeatherEntry::class), (WeatherContract.LocationEntry::class)],
+    entities = [(WeatherEntry::class),(LocationEntry::class)],
     version = 1
 )
 abstract class WeatherDatabase : RoomDatabase() {

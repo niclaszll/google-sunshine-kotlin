@@ -5,15 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.niicz.sunshinekotlin.R
+import com.niicz.sunshinekotlin.data.room.WeatherEntry
 import com.niicz.sunshinekotlin.di.ActivityScoped
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_detail.*
 import javax.inject.Inject
 
 @ActivityScoped
-class DetailFragment @Inject constructor(): DaggerFragment(), DetailContract.View {
+class DetailFragment @Inject constructor() : DaggerFragment(), DetailContract.View {
 
     @Inject
     lateinit var presenter: DetailContract.Presenter
@@ -30,11 +30,13 @@ class DetailFragment @Inject constructor(): DaggerFragment(), DetailContract.Vie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var forecastStr: Long = 0
         val intent = activity?.intent
-        if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-            val forecastStr = intent.getStringExtra(Intent.EXTRA_TEXT)
-            detail_text.text = forecastStr
+        if (intent!!.hasExtra(Intent.EXTRA_TEXT)) {
+            forecastStr = intent.getLongExtra(Intent.EXTRA_TEXT, 0)
         }
+
+        presenter.getWeatherEntryById(forecastStr)
     }
 
     override fun onResume() {
@@ -46,6 +48,11 @@ class DetailFragment @Inject constructor(): DaggerFragment(), DetailContract.Vie
         presenter.dropView()
         super.onDestroy()
 
+    }
+
+    override fun showWeatherDetails(entry: WeatherEntry) {
+        val text: String = entry.main!!.min.toString()
+        detail_text.text = text
     }
 
 }

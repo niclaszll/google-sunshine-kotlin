@@ -1,25 +1,27 @@
 package com.niicz.sunshinekotlin.data.room
 
 import android.arch.persistence.room.*
+import io.reactivex.Flowable
+
 
 @Dao
 interface LocationDao {
 
     @Query("SELECT * FROM location")
-    fun getAll(): List<WeatherContract.LocationEntry>
+    fun getAll(): List<LocationEntry>
 
-    @Query("SELECT * FROM location WHERE city=:cityName")
-    fun getByCityName(cityName: String): WeatherContract.LocationEntry
-
-    @Insert
-    fun insert(locationEntry: WeatherContract.LocationEntry)
+    @Query("SELECT * FROM location WHERE cityName=:cityName")
+    fun getByCityName(cityName: String): Flowable<LocationEntry>
 
     @Insert
-    fun insertAll(locationEntries: List<WeatherContract.LocationEntry>)
+    fun insert(locationEntry: LocationEntry)
+
+    @Insert
+    fun insertAll(locationEntries: List<LocationEntry>)
 
     @Update
-    fun update(locationEntries: WeatherContract.LocationEntry)
+    fun update(locationEntries: LocationEntry)
 
     @Delete
-    fun delete(locationEntry: WeatherContract.LocationEntry)
+    fun delete(locationEntry: LocationEntry)
 }

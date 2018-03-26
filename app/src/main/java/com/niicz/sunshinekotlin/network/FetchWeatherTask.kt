@@ -1,31 +1,5 @@
 package com.niicz.sunshinekotlin.network
 
-import android.content.ContentValues
-import android.content.SharedPreferences
-import android.net.Uri
-import android.os.AsyncTask
-import android.text.format.Time
-import android.util.Log
-import com.niicz.sunshinekotlin.BuildConfig
-import com.niicz.sunshinekotlin.R
-import com.niicz.sunshinekotlin.WeatherApplication
-import com.niicz.sunshinekotlin.data.repository.WeatherRepository
-import com.niicz.sunshinekotlin.data.repository.remote.WeatherRemoteDataSource
-import com.niicz.sunshinekotlin.data.room.LocationDao
-import com.niicz.sunshinekotlin.data.room.WeatherContract
-import com.niicz.sunshinekotlin.data.room.WeatherContract.WeatherEntry
-import com.niicz.sunshinekotlin.data.room.WeatherDao
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.json.JSONException
-import org.json.JSONObject
-import java.io.IOException
-import java.net.URL
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
-import javax.inject.Inject
-
 /*
 class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, private val sharedPreferences: SharedPreferences, private val locationDao: LocationDao, private val weatherDao: WeatherDao, private val repo: WeatherRepository) :
     AsyncTask<String, Void, MutableList<String>>() {
@@ -138,16 +112,16 @@ class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, pri
 
                 val weatherValues = ContentValues()
 
-                weatherValues.put(WeatherEntry.COLUMN_LOC_KEY, locationId)
-                weatherValues.put(WeatherEntry.COLUMN_DATE, dateTime)
-                weatherValues.put(WeatherEntry.COLUMN_HUMIDITY, humidity)
-                weatherValues.put(WeatherEntry.COLUMN_PRESSURE, pressure)
-                weatherValues.put(WeatherEntry.COLUMN_WIND_SPEED, windSpeed)
-                weatherValues.put(WeatherEntry.COLUMN_DEGREES, windDirection)
-                weatherValues.put(WeatherEntry.COLUMN_MAX_TEMP, high)
-                weatherValues.put(WeatherEntry.COLUMN_MIN_TEMP, low)
-                weatherValues.put(WeatherEntry.COLUMN_SHORT_DESC, description)
-                weatherValues.put(WeatherEntry.COLUMN_WEATHER_ID, weatherId)
+                weatherValues.put(COLUMN_LOC_KEY, locationId)
+                weatherValues.put(COLUMN_DATE, dateTime)
+                weatherValues.put(COLUMN_HUMIDITY, humidity)
+                weatherValues.put(COLUMN_PRESSURE, pressure)
+                weatherValues.put(COLUMN_WIND_SPEED, windSpeed)
+                weatherValues.put(COLUMN_DEGREES, windDirection)
+                weatherValues.put(COLUMN_MAX_TEMP, high)
+                weatherValues.put(COLUMN_MIN_TEMP, low)
+                weatherValues.put(COLUMN_SHORT_DESC, description)
+                weatherValues.put(COLUMN_WEATHER_ID, weatherId)
 
                 cVVector.add(weatherValues)
             }
@@ -203,12 +177,12 @@ class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, pri
         for (i in 0 until cvv.size) {
             val weatherValues = cvv.elementAt(i)
             val highAndLow = formatHighLows(
-                weatherValues.getAsDouble(WeatherEntry.COLUMN_MAX_TEMP),
-                weatherValues.getAsDouble(WeatherEntry.COLUMN_MIN_TEMP)
+                weatherValues.getAsDouble(COLUMN_MAX_TEMP),
+                weatherValues.getAsDouble(COLUMN_MIN_TEMP)
             )
             resultStrs.add(
-                getReadableDateString(weatherValues.getAsLong(WeatherEntry.COLUMN_DATE)) +
-                        " | " + weatherValues.getAsString(WeatherEntry.COLUMN_SHORT_DESC) +
+                getReadableDateString(weatherValues.getAsLong(COLUMN_DATE)) +
+                        " | " + weatherValues.getAsString(COLUMN_SHORT_DESC) +
                         " | " + highAndLow
             )
         }

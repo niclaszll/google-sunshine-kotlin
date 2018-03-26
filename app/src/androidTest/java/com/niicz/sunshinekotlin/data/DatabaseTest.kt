@@ -4,7 +4,7 @@ import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.niicz.sunshinekotlin.data.room.WeatherDatabase
-import com.niicz.sunshinekotlin.data.room.WeatherContract
+import com.niicz.sunshinekotlin.data.room.WeatherEntry
 import org.junit.After
 import org.junit.Before
 import org.junit.runner.RunWith
@@ -13,11 +13,8 @@ import org.junit.runner.RunWith
 open class DatabaseTest {
 
     private lateinit var weatherDatabase: WeatherDatabase
-    private val weatherEntry: WeatherContract.WeatherEntry =
-        WeatherContract.WeatherEntry()
-    private val locationEntry: WeatherContract.LocationEntry =
-        WeatherContract.LocationEntry()
-
+    private val weatherEntry: WeatherEntry =
+        WeatherEntry()
     @Before
     fun initDb() {
         weatherDatabase = Room.inMemoryDatabaseBuilder(
