@@ -24,10 +24,4 @@ class RoomModule {
     fun providesWeatherDao(database: WeatherDatabase): WeatherDao {
         return database.weatherDao()
     }
-
-    @Singleton
-    @Provides
-    fun providesLocationDao(database: WeatherDatabase): LocationDao {
-        return database.locationDao()
-    }
 }

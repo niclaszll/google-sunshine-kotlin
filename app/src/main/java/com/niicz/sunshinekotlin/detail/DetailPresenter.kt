@@ -31,13 +31,5 @@ class DetailPresenter @Inject constructor(
         detailView = null
     }
 
-    override fun getWeatherEntryById(wID: Long) {
-        val disposable = repository.getWeatherEntryById(wID)
-            .subscribeOn(ioScheduler)
-            .observeOn(uiScheduler)
-            .subscribe({ entry -> detailView!!.showWeatherDetails(entry) })
-        disposeBag.add(disposable)
-    }
-
 }
 

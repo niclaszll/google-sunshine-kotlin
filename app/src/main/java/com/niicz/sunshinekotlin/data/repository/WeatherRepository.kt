@@ -1,12 +1,11 @@
 package com.niicz.sunshinekotlin.data.repository
 
-import com.niicz.sunshinekotlin.data.room.LocationEntry
 import com.niicz.sunshinekotlin.data.room.WeatherEntry
 import io.reactivex.Flowable
 import javax.inject.Inject
 
 
-class WeatherRepository @Inject constructor(@Local var localDataSource: WeatherDataSource, @Remote var remoteDataSource: WeatherDataSource) :
+class WeatherRepository @Inject constructor(@Local private var localDataSource: WeatherDataSource, @Remote private var remoteDataSource: WeatherDataSource) :
     WeatherDataSource {
 
     override fun getWeatherEntries(location: String, forceRemote: Boolean): Flowable<MutableList<WeatherEntry>> {
@@ -41,15 +40,6 @@ class WeatherRepository @Inject constructor(@Local var localDataSource: WeatherD
             val entryID = localDataSource.insertWeatherEntry(entry)
             entry.id = entryID
         }).toList().toFlowable()
-    }
-
-    override fun getLocationEntry(location: String, forceRemote: Boolean): Flowable<LocationEntry> {
-        return if (forceRemote) {
-            remoteDataSource.getLocationEntry(location, true)
-        }
-        else {
-            localDataSource.getLocationEntry(location, false)
-        }
     }
 
     override fun getWeatherEntryById(wID: Long): Flowable<WeatherEntry> {

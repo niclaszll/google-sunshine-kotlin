@@ -5,15 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 
-@Entity(
-    tableName = WeatherEntry.TABLE_NAME,
-    foreignKeys = [(ForeignKey(
-        entity = LocationEntry::class,
-        parentColumns = [("lKey")],
-        childColumns = ["locationKey"],
-        onDelete = ForeignKey.CASCADE
-    ))]
-)
+@Entity(tableName = WeatherEntry.TABLE_NAME)
 data class WeatherEntry(
     @SerializedName("dt")
     @ColumnInfo(name = COLUMN_DATE)
@@ -77,6 +69,36 @@ data class WeatherEntry(
         var pressure: Double = 0.0
     }
 
+    class Location {
+
+        @SerializedName("id")
+        @ColumnInfo(name = COLUMN_lID)
+        var lID: Long = 0
+
+        @SerializedName("name")
+        @ColumnInfo(name = COLUMN_CITY_NAME)
+        var cityName: String = ""
+
+        @SerializedName("coord")
+        @Embedded(prefix = "coord_")
+        var coord: Coord? = null
+
+        @SerializedName("country")
+        @ColumnInfo(name = COLUMN_COUNTRY)
+        var country: String = ""
+
+        class Coord {
+            @SerializedName("lat")
+            @ColumnInfo(name = COLUMN_COORD_LAT)
+            var coordLat: String = ""
+
+            @SerializedName("lon")
+            @ColumnInfo(name = COLUMN_COORD_LONG)
+            var coordLong: String = ""
+
+        }
+    }
+
     companion object {
 
         const val TABLE_NAME = "weather"
@@ -90,6 +112,12 @@ data class WeatherEntry(
         const val COLUMN_PRESSURE = "pressure"
         const val COLUMN_WIND_SPEED = "wind"
         const val COLUMN_DEGREES = "degrees"
+
+        const val COLUMN_lID = "lID"
+        const val COLUMN_CITY_NAME = "cityName"
+        const val COLUMN_COORD_LAT = "coordLat"
+        const val COLUMN_COORD_LONG = "coordLong"
+        const val COLUMN_COUNTRY = "country"
     }
 
     /* convert list to string and back, because room cannot store list of objects*/

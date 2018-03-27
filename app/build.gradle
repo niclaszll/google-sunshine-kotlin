@@ -5,7 +5,6 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.spicywdev.sunshinekotlin"
@@ -24,6 +23,7 @@ android {
     buildTypes.each {
         it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', '"7411207fc322652aaae1e9aa75c72088"'
     }
+    buildToolsVersion rootProject.ext.buildToolsVersion
 }
 
 dependencies {
@@ -74,7 +74,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroidVersion"
 
     // Paging
-    implementation "android.arch.paging:runtime:1.0.0-alpha4-1"
+    implementation "android.arch.paging:runtime:1.0.0-alpha7"
 
 }
 repositories {

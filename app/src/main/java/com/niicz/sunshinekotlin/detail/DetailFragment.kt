@@ -35,8 +35,6 @@ class DetailFragment @Inject constructor() : DaggerFragment(), DetailContract.Vi
         if (intent!!.hasExtra(Intent.EXTRA_TEXT)) {
             forecastStr = intent.getLongExtra(Intent.EXTRA_TEXT, 0)
         }
-
-        presenter.getWeatherEntryById(forecastStr)
     }
 
     override fun onResume() {

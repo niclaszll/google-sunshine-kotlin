@@ -13,6 +13,5 @@ interface DetailContract {
     interface Presenter : BasePresenter<View> {
         override fun takeView(view: DetailContract.View)
         override fun dropView()
-        fun getWeatherEntryById(wID: Long)
     }
 }

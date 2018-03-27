@@ -43,13 +43,7 @@ class ForecastFragment @Inject constructor() : DaggerFragment(), ForecastContrac
         forecastAdapter = ForecastAdapter(mutableListOf())
         recyclerViewForecast.adapter = forecastAdapter
 
-        //get location from sharedPrefs
-        val location = sharedPreferences.getString(
-            getString(R.string.pref_location_key),
-            getString(R.string.pref_location_default)
-        )
-
-        refreshLayoutForecast.setOnRefreshListener { presenter.fetchWeather(location) }
+        refreshLayoutForecast.setOnRefreshListener { this.refreshWeather() }
 
         //onclicklistener using rxjava
         //https://stackoverflow.com/questions/24885223/why-doesnt-recyclerview-have-onitemclicklistener

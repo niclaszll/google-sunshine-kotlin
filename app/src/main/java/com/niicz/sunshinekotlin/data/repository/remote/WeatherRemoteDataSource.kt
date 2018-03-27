@@ -4,7 +4,6 @@ import com.niicz.sunshinekotlin.BuildConfig
 import com.niicz.sunshinekotlin.data.api.WeatherForecastResponse
 import com.niicz.sunshinekotlin.data.api.WeatherService
 import com.niicz.sunshinekotlin.data.repository.WeatherDataSource
-import com.niicz.sunshinekotlin.data.room.LocationEntry
 import com.niicz.sunshinekotlin.data.room.WeatherEntry
 import io.reactivex.Flowable
 import javax.inject.Inject
@@ -20,15 +19,6 @@ class WeatherRemoteDataSource @Inject constructor(private var weatherService: We
             "metric",
             BuildConfig.OPEN_WEATHER_MAP_API_KEY
         ).map(WeatherForecastResponse::weatherEntries)
-    }
-
-    override fun getLocationEntry(location: String, forceRemote: Boolean): Flowable<LocationEntry> {
-        return weatherService.getForecast(
-            location,
-            "json",
-            "metric",
-            BuildConfig.OPEN_WEATHER_MAP_API_KEY
-        ).map(WeatherForecastResponse::locationEntry)
     }
 
     override fun getWeatherEntryById(wID: Long): Flowable<WeatherEntry> {
