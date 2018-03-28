@@ -129,7 +129,7 @@ class FetchWeatherTask @Inject constructor(private val client: OkHttpClient, pri
             // add to database
             if (cVVector.size > 0) {
                 for (item in cVVector) {
-                    weatherDao.insert(WeatherEntry().fromContentValues(item))
+                    weatherDao.insert(WeatherForecastEnvelope().fromContentValues(item))
                 }
 
             }

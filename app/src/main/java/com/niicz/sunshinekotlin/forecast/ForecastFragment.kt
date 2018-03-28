@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.niicz.sunshinekotlin.R
-import com.niicz.sunshinekotlin.data.room.WeatherEntry
+import com.niicz.sunshinekotlin.data.repository.WeatherForecastEnvelope
 import com.niicz.sunshinekotlin.detail.DetailActivity
 import com.niicz.sunshinekotlin.di.ActivityScoped
 import dagger.android.support.DaggerFragment
@@ -51,8 +51,8 @@ class ForecastFragment @Inject constructor() : DaggerFragment(), ForecastContrac
             { entry ->
                 startActivity(
                     Intent(activity, DetailActivity::class.java)
-                        .putExtra(Intent.EXTRA_TEXT, entry.id)
-                ).also { Log.v("Test", entry.id.toString()) }
+                        .putExtra(Intent.EXTRA_TEXT, entry.date)
+                )
             }
         )
 
@@ -77,8 +77,8 @@ class ForecastFragment @Inject constructor() : DaggerFragment(), ForecastContrac
         forecastAdapter.clearData()
     }
 
-    override fun showWeather(entries: MutableList<WeatherEntry>) {
-        forecastAdapter.replaceData(entries)
+    override fun showWeather(forecasts: MutableList<WeatherForecastEnvelope.ForecastData>) {
+        forecastAdapter.replaceData(forecasts)
     }
 
     override fun refreshWeather() {

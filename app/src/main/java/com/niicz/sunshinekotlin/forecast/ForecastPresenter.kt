@@ -2,7 +2,7 @@ package com.niicz.sunshinekotlin.forecast
 
 import android.util.Log
 import com.niicz.sunshinekotlin.data.repository.WeatherRepository
-import com.niicz.sunshinekotlin.data.room.WeatherEntry
+import com.niicz.sunshinekotlin.data.repository.WeatherForecastEnvelope
 import com.niicz.sunshinekotlin.di.ActivityScoped
 import com.niicz.sunshinekotlin.util.schedulers.RunOn
 import com.niicz.sunshinekotlin.util.schedulers.SchedulerType
@@ -32,11 +32,11 @@ class ForecastPresenter @Inject constructor(
 
         forecastView?.clearForecast()
 
-        val disposable = repository.getWeatherEntries(location, true)
+        val disposable = repository.getWeatherForecast(location)
             .subscribeOn(ioScheduler)
             .observeOn(uiScheduler)
             .subscribe(
-                { entries -> handleReturnedData(entries) },
+                { entries -> handleReturnedData(entries.forecast) },
                 { error -> handleError(error) },
                 { forecastView?.stopLoadingIndicator() }
             )
@@ -55,7 +55,7 @@ class ForecastPresenter @Inject constructor(
     /**
      * Updates view after loading data is completed successfully.
      */
-    private fun handleReturnedData(list: MutableList<WeatherEntry>) {
+    private fun handleReturnedData(list: MutableList<WeatherForecastEnvelope.ForecastData>) {
         forecastView?.stopLoadingIndicator()
         if (!list.isEmpty()) {
             forecastView?.showWeather(list)

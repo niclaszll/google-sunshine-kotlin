@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.niicz.sunshinekotlin.R
-import com.niicz.sunshinekotlin.data.room.WeatherEntry
+import com.niicz.sunshinekotlin.data.repository.WeatherForecastEnvelope
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
 
-class ForecastAdapter(private val forecastList: MutableList<WeatherEntry>) :
+class ForecastAdapter(private val forecastList: MutableList<WeatherForecastEnvelope.ForecastData>) :
     RecyclerView.Adapter<ForecastAdapter.ForecastViewHolder>() {
 
 
@@ -23,24 +23,24 @@ class ForecastAdapter(private val forecastList: MutableList<WeatherEntry>) :
     }
 
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
-        val entry: WeatherEntry = forecastList[position]
-        //weather is null if forceRemote=false
-        val text = entry.weather!![0].description + "  -  " + entry.main!!.min + "  -  " + entry.id
-        holder.itemView.setOnClickListener { onClickSubject.onNext(entry) }
+        val forecast: WeatherForecastEnvelope.ForecastData = forecastList[position]
+        val text =
+            forecast.date + "  -  " + forecast.weather!![0].description + "  -  " + forecast.main!!.min
+        holder.itemView.setOnClickListener { onClickSubject.onNext(forecast) }
         holder.forecastTextView.text = text
     }
 
 
-    private val onClickSubject = PublishSubject.create<WeatherEntry>()
+    private val onClickSubject = PublishSubject.create<WeatherForecastEnvelope.ForecastData>()
 
 
     override fun getItemCount(): Int {
         return forecastList.size
     }
 
-    fun replaceData(questions: MutableList<WeatherEntry>) {
+    fun replaceData(forecasts: MutableList<WeatherForecastEnvelope.ForecastData>) {
         this.forecastList.clear()
-        this.forecastList.addAll(questions)
+        this.forecastList.addAll(forecasts)
         notifyDataSetChanged()
     }
 
@@ -49,8 +49,8 @@ class ForecastAdapter(private val forecastList: MutableList<WeatherEntry>) :
         notifyDataSetChanged()
     }
 
-    fun getPositionClicks(): Observable<WeatherEntry> {
-        return onClickSubject as Observable<WeatherEntry>
+    fun getPositionClicks(): Observable<WeatherForecastEnvelope.ForecastData> {
+        return onClickSubject as Observable<WeatherForecastEnvelope.ForecastData>
     }
 
     class ForecastViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
