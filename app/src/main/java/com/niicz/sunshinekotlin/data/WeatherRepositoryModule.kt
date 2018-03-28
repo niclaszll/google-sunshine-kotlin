@@ -12,5 +12,5 @@ abstract class WeatherRepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideRemoteDataSource(weatherRemoteDataSource: WeatherRemoteDataSource):WeatherDataSource
+    abstract fun provideRemoteDataSource(weatherRemoteDataSource: WeatherRemoteDataSource): WeatherDataSource
 }

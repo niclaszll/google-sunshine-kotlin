@@ -1,8 +1,8 @@
 package com.niicz.sunshinekotlin.forecast
 
 import android.util.Log
-import com.niicz.sunshinekotlin.data.repository.WeatherRepository
 import com.niicz.sunshinekotlin.data.repository.WeatherForecastEnvelope
+import com.niicz.sunshinekotlin.data.repository.WeatherRepository
 import com.niicz.sunshinekotlin.di.ActivityScoped
 import com.niicz.sunshinekotlin.util.schedulers.RunOn
 import com.niicz.sunshinekotlin.util.schedulers.SchedulerType

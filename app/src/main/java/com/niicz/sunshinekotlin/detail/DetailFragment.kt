@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.niicz.sunshinekotlin.R
-import com.niicz.sunshinekotlin.data.repository.WeatherForecastEnvelope
 import com.niicz.sunshinekotlin.di.ActivityScoped
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_detail.*

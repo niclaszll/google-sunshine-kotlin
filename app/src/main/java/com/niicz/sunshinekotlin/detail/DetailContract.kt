@@ -2,7 +2,6 @@ package com.niicz.sunshinekotlin.detail
 
 import com.niicz.sunshinekotlin.BasePresenter
 import com.niicz.sunshinekotlin.BaseView
-import com.niicz.sunshinekotlin.data.repository.WeatherForecastEnvelope
 
 interface DetailContract {
 

@@ -26,7 +26,7 @@ class WeatherApplication : DaggerApplication() {
     companion object {
         private var instance: WeatherApplication? = null
 
-        fun applicationContext() : Context {
+        fun applicationContext(): Context {
             return instance!!.applicationContext
         }
     }

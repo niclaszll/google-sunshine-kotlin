@@ -9,10 +9,12 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [(AppModule::class),
-    (WeatherRepositoryModule::class),
-    (NetworkModule::class),
-    (SharedPrefsModule::class)])
+@Component(
+    modules = [(AppModule::class),
+        (WeatherRepositoryModule::class),
+        (NetworkModule::class),
+        (SharedPrefsModule::class)]
+)
 interface WeatherRepositoryComponent {
 
     fun provideWeatherRepository(): WeatherRepository
