@@ -24,15 +24,14 @@ class ForecastAdapter(private val forecastList: MutableList<WeatherForecastEnvel
 
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
         val forecast: WeatherForecastEnvelope.ForecastData = forecastList[position]
+
         val text =
-            forecast.date + "  -  " + forecast.weather!![0].description + "  -  " + forecast.main!!.min
+            forecast.date + "  -  " + forecast.weather!![0].description + "  -  " + forecast.main!!.min.toInt() + "  -  " + forecast.main!!.max.toInt()
         holder.itemView.setOnClickListener { onClickSubject.onNext(forecast) }
         holder.forecastTextView.text = text
     }
 
-
     private val onClickSubject = PublishSubject.create<WeatherForecastEnvelope.ForecastData>()
-
 
     override fun getItemCount(): Int {
         return forecastList.size

@@ -6,7 +6,7 @@ import com.niicz.sunshinekotlin.BaseView
 interface DetailContract {
 
     interface View : BaseView<Presenter> {
-        fun showWeatherDetails(forecastEnvelope: String)
+        fun showWeatherDetails()
     }
 
     interface Presenter : BasePresenter<View> {

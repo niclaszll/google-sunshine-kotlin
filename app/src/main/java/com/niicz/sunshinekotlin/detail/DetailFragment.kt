@@ -1,11 +1,11 @@
 package com.niicz.sunshinekotlin.detail
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.niicz.sunshinekotlin.R
+import com.niicz.sunshinekotlin.data.repository.WeatherForecastEnvelope
 import com.niicz.sunshinekotlin.di.ActivityScoped
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_detail.*
@@ -16,6 +16,8 @@ class DetailFragment @Inject constructor() : DaggerFragment(), DetailContract.Vi
 
     @Inject
     lateinit var presenter: DetailContract.Presenter
+
+    lateinit var weatherData: WeatherForecastEnvelope.ForecastData
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -30,9 +32,10 @@ class DetailFragment @Inject constructor() : DaggerFragment(), DetailContract.Vi
         super.onViewCreated(view, savedInstanceState)
 
         val intent = activity?.intent
-        if (intent!!.hasExtra(Intent.EXTRA_TEXT)) {
-            val forecastStr = intent.getStringExtra(Intent.EXTRA_TEXT)
-            this.showWeatherDetails(forecastStr)
+        if (intent!!.hasExtra("detail")) {
+            val data = activity!!.intent.extras
+            weatherData = data.getParcelable("detail")
+            this.showWeatherDetails()
         }
     }
 
@@ -47,9 +50,8 @@ class DetailFragment @Inject constructor() : DaggerFragment(), DetailContract.Vi
 
     }
 
-    override fun showWeatherDetails(forecastEnvelope: String) {
-
-        detail_text.text = forecastEnvelope
+    override fun showWeatherDetails() {
+        detail_text.text = weatherData.date
     }
 
 }

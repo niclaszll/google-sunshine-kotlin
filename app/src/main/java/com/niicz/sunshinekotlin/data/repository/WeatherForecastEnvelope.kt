@@ -1,5 +1,7 @@
 package com.niicz.sunshinekotlin.data.repository
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 class WeatherForecastEnvelope {
@@ -10,7 +12,7 @@ class WeatherForecastEnvelope {
     @SerializedName("city")
     var city: Location? = null
 
-    class ForecastData {
+    class ForecastData() : Parcelable {
 
         @SerializedName("dt")
         var date: String = ""
@@ -24,24 +26,78 @@ class WeatherForecastEnvelope {
         @SerializedName("wind")
         var wind: Wind? = null
 
+        constructor(parcel: Parcel) : this() {
+            date = parcel.readString()
+            main = parcel.readParcelable(Main::class.java.classLoader)
+            wind = parcel.readParcelable(Wind::class.java.classLoader)
+        }
 
-        class Wind {
+
+        class Wind() : Parcelable {
             @SerializedName("speed")
             var wind: Double = 0.0
 
             @SerializedName("deg")
             var degrees: String = ""
+
+            constructor(parcel: Parcel) : this() {
+                wind = parcel.readDouble()
+                degrees = parcel.readString()
+            }
+
+            override fun writeToParcel(parcel: Parcel, flags: Int) {
+                parcel.writeDouble(wind)
+                parcel.writeString(degrees)
+            }
+
+            override fun describeContents(): Int {
+                return 0
+            }
+
+            companion object CREATOR : Parcelable.Creator<Wind> {
+                override fun createFromParcel(parcel: Parcel): Wind {
+                    return Wind(parcel)
+                }
+
+                override fun newArray(size: Int): Array<Wind?> {
+                    return arrayOfNulls(size)
+                }
+            }
         }
 
-        class Weather {
+        class Weather() : Parcelable {
             @SerializedName("id")
             var weatherID: String = ""
 
             @SerializedName("description")
             var description: String = ""
+
+            constructor(parcel: Parcel) : this() {
+                weatherID = parcel.readString()
+                description = parcel.readString()
+            }
+
+            override fun writeToParcel(parcel: Parcel, flags: Int) {
+                parcel.writeString(weatherID)
+                parcel.writeString(description)
+            }
+
+            override fun describeContents(): Int {
+                return 0
+            }
+
+            companion object CREATOR : Parcelable.Creator<Weather> {
+                override fun createFromParcel(parcel: Parcel): Weather {
+                    return Weather(parcel)
+                }
+
+                override fun newArray(size: Int): Array<Weather?> {
+                    return arrayOfNulls(size)
+                }
+            }
         }
 
-        class Main {
+        class Main() : Parcelable {
             @SerializedName("temp_min")
             var min: Double = 0.0
 
@@ -53,6 +109,54 @@ class WeatherForecastEnvelope {
 
             @SerializedName("pressure")
             var pressure: Double = 0.0
+
+            constructor(parcel: Parcel) : this() {
+                min = parcel.readDouble()
+                max = parcel.readDouble()
+                humidity = parcel.readDouble()
+                pressure = parcel.readDouble()
+            }
+
+            override fun writeToParcel(parcel: Parcel, flags: Int) {
+                parcel.writeDouble(min)
+                parcel.writeDouble(max)
+                parcel.writeDouble(humidity)
+                parcel.writeDouble(pressure)
+            }
+
+            override fun describeContents(): Int {
+                return 0
+            }
+
+            companion object CREATOR : Parcelable.Creator<Main> {
+                override fun createFromParcel(parcel: Parcel): Main {
+                    return Main(parcel)
+                }
+
+                override fun newArray(size: Int): Array<Main?> {
+                    return arrayOfNulls(size)
+                }
+            }
+        }
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeString(date)
+            parcel.writeParcelable(main, flags)
+            parcel.writeParcelable(wind, flags)
+        }
+
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object CREATOR : Parcelable.Creator<ForecastData> {
+            override fun createFromParcel(parcel: Parcel): ForecastData {
+                return ForecastData(parcel)
+            }
+
+            override fun newArray(size: Int): Array<ForecastData?> {
+                return arrayOfNulls(size)
+            }
         }
 
     }

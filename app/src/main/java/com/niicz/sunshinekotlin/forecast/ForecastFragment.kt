@@ -12,6 +12,7 @@ import com.niicz.sunshinekotlin.R
 import com.niicz.sunshinekotlin.data.repository.WeatherForecastEnvelope
 import com.niicz.sunshinekotlin.detail.DetailActivity
 import com.niicz.sunshinekotlin.di.ActivityScoped
+import com.niicz.sunshinekotlin.util.WeatherDataFormatter
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_forecast.*
 import javax.inject.Inject
@@ -50,7 +51,7 @@ class ForecastFragment @Inject constructor() : DaggerFragment(), ForecastContrac
             { entry ->
                 startActivity(
                     Intent(activity, DetailActivity::class.java)
-                        .putExtra(Intent.EXTRA_TEXT, entry.date)
+                        .putExtra("detail", entry)
                 )
             }
         )
@@ -77,6 +78,10 @@ class ForecastFragment @Inject constructor() : DaggerFragment(), ForecastContrac
     }
 
     override fun showWeather(forecasts: MutableList<WeatherForecastEnvelope.ForecastData>) {
+        //format data
+        for (item in forecasts) {
+            formatWeatherData(item)
+        }
         forecastAdapter.replaceData(forecasts)
     }
 
@@ -97,6 +102,20 @@ class ForecastFragment @Inject constructor() : DaggerFragment(), ForecastContrac
 
     override fun showNoDataMessage() {
         Toast.makeText(activity, "No Data available.", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun formatWeatherData(data: WeatherForecastEnvelope.ForecastData) {
+
+        val dataFormatter = WeatherDataFormatter()
+        data.date = dataFormatter.format(data.date.toLong())
+
+        val unitType = sharedPreferences.getString(
+            getString(R.string.pref_units_key),
+            getString(R.string.pref_units_metric)
+        )
+
+        data.main!!.max = dataFormatter.formatTemp(unitType, data.main!!.max)
+        data.main!!.min = dataFormatter.formatTemp(unitType, data.main!!.min)
     }
 
 }
