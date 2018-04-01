@@ -3,6 +3,7 @@ package com.niicz.sunshinekotlin.forecast
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,9 @@ import com.niicz.sunshinekotlin.util.WeatherDataFormatter
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_forecast.*
 import javax.inject.Inject
+import android.support.v7.widget.DividerItemDecoration
+
+
 
 @ActivityScoped
 class ForecastFragment @Inject constructor() : DaggerFragment(), ForecastContract.View {
@@ -39,6 +43,14 @@ class ForecastFragment @Inject constructor() : DaggerFragment(), ForecastContrac
 
         linearLayoutManager = LinearLayoutManager(activity)
         recyclerViewForecast.layoutManager = linearLayoutManager
+
+        //custom divider
+        /*val dividerItemDecoration = DividerItemDecoration(
+            recyclerViewForecast.context,
+            linearLayoutManager.orientation
+        )
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(context!!,R.drawable.divider_item_deco_custom)!!)
+        recyclerViewForecast.addItemDecoration(dividerItemDecoration)*/
 
         forecastAdapter = ForecastAdapter(mutableListOf())
         recyclerViewForecast.adapter = forecastAdapter
