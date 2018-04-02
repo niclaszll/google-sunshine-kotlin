@@ -3,7 +3,6 @@ package com.niicz.sunshinekotlin.forecast
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -17,8 +16,6 @@ import com.niicz.sunshinekotlin.util.WeatherDataFormatter
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_forecast.*
 import javax.inject.Inject
-import android.support.v7.widget.DividerItemDecoration
-
 
 
 @ActivityScoped

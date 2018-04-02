@@ -25,10 +25,12 @@ class ForecastAdapter(private val forecastList: MutableList<WeatherForecastEnvel
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
         val forecast: WeatherForecastEnvelope.ForecastData = forecastList[position]
 
-        val text =
-            forecast.date + "  -  " + forecast.weather!![0].description + "  -  " + forecast.main!!.min.toInt() + "  -  " + forecast.main!!.max.toInt()
         holder.itemView.setOnClickListener { onClickSubject.onNext(forecast) }
-        holder.forecastTextView.text = text
+
+        holder.forecastDescriptionView.text = forecast.weather!![0].description
+        holder.forecastMaxTempView.text = forecast.main!!.max.toInt().toString()
+        holder.forecastMinTempView.text = forecast.main!!.min.toInt().toString()
+        holder.forecastDateView.text = forecast.date
     }
 
     private val onClickSubject = PublishSubject.create<WeatherForecastEnvelope.ForecastData>()
@@ -54,7 +56,10 @@ class ForecastAdapter(private val forecastList: MutableList<WeatherForecastEnvel
 
     class ForecastViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var forecastTextView: TextView = itemView.findViewById(R.id.list_item_forecast_textview)
+        var forecastDescriptionView: TextView = itemView.findViewById(R.id.list_item_forecast_description)
+        var forecastMaxTempView: TextView = itemView.findViewById(R.id.list_item_forecast_max)
+        var forecastMinTempView: TextView = itemView.findViewById(R.id.list_item_forecast_min)
+        var forecastDateView: TextView = itemView.findViewById(R.id.list_item_forecast_date)
 
     }
 }

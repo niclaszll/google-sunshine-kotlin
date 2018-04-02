@@ -23,8 +23,7 @@
     <string name="pref_units_key" translatable="false">units</string>
     <string name="pref_units_metric" translatable="false">metric</string>
     <string name="pref_units_imperial" translatable="false">imperial</string>
-
-
+    <string name="icon_placeholder_forecast">icon</string>
 
 
 </resources>
