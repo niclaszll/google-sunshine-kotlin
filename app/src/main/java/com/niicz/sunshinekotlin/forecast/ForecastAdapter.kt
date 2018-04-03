@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.niicz.sunshinekotlin.R
 import com.niicz.sunshinekotlin.data.repository.WeatherForecastEnvelope
@@ -27,6 +28,7 @@ class ForecastAdapter(private val forecastList: MutableList<WeatherForecastEnvel
 
         holder.itemView.setOnClickListener { onClickSubject.onNext(forecast) }
 
+        holder.forecastWeatherIcon.setImageResource(R.drawable.sun)
         holder.forecastDescriptionView.text = forecast.weather!![0].description
         holder.forecastMaxTempView.text = forecast.main!!.max.toInt().toString()
         holder.forecastMinTempView.text = forecast.main!!.min.toInt().toString()
@@ -56,6 +58,7 @@ class ForecastAdapter(private val forecastList: MutableList<WeatherForecastEnvel
 
     class ForecastViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        var forecastWeatherIcon: ImageView = itemView.findViewById(R.id.list_item_icon)
         var forecastDescriptionView: TextView = itemView.findViewById(R.id.list_item_forecast_description)
         var forecastMaxTempView: TextView = itemView.findViewById(R.id.list_item_forecast_max)
         var forecastMinTempView: TextView = itemView.findViewById(R.id.list_item_forecast_min)
